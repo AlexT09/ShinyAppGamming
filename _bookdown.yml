@@ -1,4 +1,5 @@
-book_filename: "book"
+book_filename: "rbook_dataviz2"
+rmd_files: ["index.Rmd", "01-intro.Rmd", "03-eda.Rmd"]
 delete_merged_file: true
 language:
   ui:
