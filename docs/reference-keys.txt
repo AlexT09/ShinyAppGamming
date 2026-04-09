@@ -1,4 +1,3 @@
 portada
 introducción
-etl-extract-transform-load
 análisis-exploratorio-de-datos-eda
