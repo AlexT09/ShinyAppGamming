@@ -1,0 +1,8 @@
+/* Estilo del libro: mismos colores que los dashboards */
+.book .book-body .page-wrapper .page-inner section.normal h1,
+.book .book-body .page-wrapper .page-inner section.normal h2 { color: #00265F; }
+.book .book-body .page-wrapper .page-inner section.normal a { color: #0070D1; }
+.interp { background: #EEF6FF; border-left: 4px solid #0070D1; padding: 10px 14px; border-radius: 0 6px 6px 0; margin: 4px 0 18px; }
+.interp strong { color: #0070D1; }
+.limit { background: #FFF7E6; border-left: 4px solid #F59E0B; padding: 10px 14px; border-radius: 0 6px 6px 0; margin: 4px 0 18px; }
+table { font-size: 0.9em; }

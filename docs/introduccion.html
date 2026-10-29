@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html lang="es" xml:lang="es">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Capítulo 1 Introducción | PS Gaming Analytics 2025</title>
+  <meta name="description" content="Análisis exploratorio y visualización del esquema PlayStation del dataset Gaming Profiles 2025 (Kaggle, CC0), con un dashboard en Shiny y otro en Dash." />
+  <meta name="generator" content="bookdown 0.48 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="Capítulo 1 Introducción | PS Gaming Analytics 2025" />
+  <meta property="og:type" content="book" />
+  
+  <meta property="og:description" content="Análisis exploratorio y visualización del esquema PlayStation del dataset Gaming Profiles 2025 (Kaggle, CC0), con un dashboard en Shiny y otro en Dash." />
+  
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Capítulo 1 Introducción | PS Gaming Analytics 2025" />
+  
+  <meta name="twitter:description" content="Análisis exploratorio y visualización del esquema PlayStation del dataset Gaming Profiles 2025 (Kaggle, CC0), con un dashboard en Shiny y otro en Dash." />
+  
+
+<meta name="author" content="Alex Terán" />
+
+
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="index.html"/>
+<link rel="next" href="etl.html"/>
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+<link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
+<link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
+
+
+<style type="text/css">
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { color: #008000; } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { color: #008000; font-weight: bold; } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<style type="text/css">
+  
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">PS Gaming Analytics 2025</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Presentación</a>
+<ul>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#c%C3%B3mo-reproducirlo"><i class="fa fa-check"></i>Cómo reproducirlo</a></li>
+</ul></li>
+<li class="chapter" data-level="1" data-path="introduccion.html"><a href="introduccion.html"><i class="fa fa-check"></i><b>1</b> Introducción</a>
+<ul>
+<li class="chapter" data-level="1.1" data-path="introduccion.html"><a href="introduccion.html#contexto"><i class="fa fa-check"></i><b>1.1</b> Contexto</a></li>
+<li class="chapter" data-level="1.2" data-path="introduccion.html"><a href="introduccion.html#pregunta-de-investigaci%C3%B3n"><i class="fa fa-check"></i><b>1.2</b> Pregunta de investigación</a></li>
+<li class="chapter" data-level="1.3" data-path="introduccion.html"><a href="introduccion.html#objetivos"><i class="fa fa-check"></i><b>1.3</b> Objetivos</a></li>
+<li class="chapter" data-level="1.4" data-path="introduccion.html"><a href="introduccion.html#alcance"><i class="fa fa-check"></i><b>1.4</b> Alcance</a></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="etl.html"><a href="etl.html"><i class="fa fa-check"></i><b>2</b> ETL: extracción, transformación y carga</a>
+<ul>
+<li class="chapter" data-level="2.1" data-path="etl.html"><a href="etl.html#extracci%C3%B3n"><i class="fa fa-check"></i><b>2.1</b> Extracción</a></li>
+<li class="chapter" data-level="2.2" data-path="etl.html"><a href="etl.html#transformaci%C3%B3n"><i class="fa fa-check"></i><b>2.2</b> Transformación</a></li>
+<li class="chapter" data-level="2.3" data-path="etl.html"><a href="etl.html#registro-de-calidad"><i class="fa fa-check"></i><b>2.3</b> Registro de calidad</a></li>
+<li class="chapter" data-level="2.4" data-path="etl.html"><a href="etl.html#carga"><i class="fa fa-check"></i><b>2.4</b> Carga</a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="eda.html"><a href="eda.html"><i class="fa fa-check"></i><b>3</b> Análisis exploratorio (EDA)</a>
+<ul>
+<li class="chapter" data-level="3.1" data-path="eda.html"><a href="eda.html#catalogo"><i class="fa fa-check"></i><b>3.1</b> Catálogo (objetivos 1 y 4)</a></li>
+<li class="chapter" data-level="3.2" data-path="eda.html"><a href="eda.html#precios"><i class="fa fa-check"></i><b>3.2</b> Precios (objetivos 2, 3 y 9)</a></li>
+<li class="chapter" data-level="3.3" data-path="eda.html"><a href="eda.html#jugadores"><i class="fa fa-check"></i><b>3.3</b> Jugadores (objetivos 5 y 7)</a></li>
+<li class="chapter" data-level="3.4" data-path="eda.html"><a href="eda.html#popularidad"><i class="fa fa-check"></i><b>3.4</b> Popularidad (objetivo 6)</a></li>
+<li class="chapter" data-level="3.5" data-path="eda.html"><a href="eda.html#logros"><i class="fa fa-check"></i><b>3.5</b> Logros (objetivo 8)</a></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="conclusiones.html"><a href="conclusiones.html"><i class="fa fa-check"></i><b>4</b> Conclusiones</a>
+<ul>
+<li class="chapter" data-level="4.1" data-path="conclusiones.html"><a href="conclusiones.html#respuesta-a-la-pregunta-de-investigaci%C3%B3n"><i class="fa fa-check"></i><b>4.1</b> Respuesta a la pregunta de investigación</a></li>
+<li class="chapter" data-level="4.2" data-path="conclusiones.html"><a href="conclusiones.html#recomendaciones"><i class="fa fa-check"></i><b>4.2</b> Recomendaciones</a></li>
+<li class="chapter" data-level="4.3" data-path="conclusiones.html"><a href="conclusiones.html#limitaciones"><i class="fa fa-check"></i><b>4.3</b> Limitaciones</a></li>
+<li class="chapter" data-level="4.4" data-path="conclusiones.html"><a href="conclusiones.html#trabajo-futuro"><i class="fa fa-check"></i><b>4.4</b> Trabajo futuro</a></li>
+</ul></li>
+<li class="divider"></li>
+<li><a href="https://github.com/AlexT09/ShinyAppGamming" target="_blank">Repositorio en GitHub</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">PS Gaming Analytics 2025</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="introduccion" class="section level1 hasAnchor" number="1">
+<h1><span class="header-section-number">Capítulo 1</span> Introducción<a href="introduccion.html#introduccion" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<div id="contexto" class="section level2 hasAnchor" number="1.1">
+<h2><span class="header-section-number">1.1</span> Contexto<a href="introduccion.html#contexto" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>PlayStation Store reúne decenas de miles de juegos digitales para PS3, PS4, PS5 y PS Vita, desde producciones AAA de más de $60 hasta juegos indie de menos de $1. Como copiar un juego digital casi no cuesta nada, el precio no depende del costo de fabricarlo sino del género, del publisher y de la competencia.</p>
+<p>El dataset <em>Gaming Profiles 2025</em> reúne datos reales de Steam, PlayStation y Xbox (unos 60 GB en total). Este trabajo usa las 6 tablas del esquema <strong>PlayStation</strong>:</p>
+<table>
+<colgroup>
+<col width="50%" />
+<col width="50%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Tabla</th>
+<th>Contenido</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>games</code></td>
+<td>Ficha de cada juego: título, plataforma, géneros, publisher y fecha de lanzamiento</td>
+</tr>
+<tr class="even">
+<td><code>prices</code></td>
+<td>Precio en USD, EUR, GBP, JPY y RUB, capturado varias veces en febrero de 2025</td>
+</tr>
+<tr class="odd">
+<td><code>players</code></td>
+<td>Jugadores de la muestra y su país</td>
+</tr>
+<tr class="even">
+<td><code>purchased_games</code></td>
+<td>Biblioteca de juegos comprados por cada jugador</td>
+</tr>
+<tr class="odd">
+<td><code>achievements</code></td>
+<td>Trofeos de cada juego y su rareza (Bronze, Silver, Gold, Platinum)</td>
+</tr>
+<tr class="even">
+<td><code>history</code></td>
+<td>Cada trofeo ganado por cada jugador, con fecha y hora (2008–2024)</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div id="pregunta-de-investigación" class="section level2 hasAnchor" number="1.2">
+<h2><span class="header-section-number">1.2</span> Pregunta de investigación<a href="introduccion.html#pregunta-de-investigaci%C3%B3n" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<blockquote>
+<p><strong>¿Qué patrones de catálogo, precio, audiencia, popularidad y dificultad caracterizan a PlayStation Store según los datos de Gaming Profiles 2025?</strong></p>
+</blockquote>
+<p>Subpreguntas:</p>
+<ol style="list-style-type: decimal">
+<li>¿Qué plataformas, géneros y publishers dominan el catálogo y cómo creció?</li>
+<li>¿Cómo se distribuyen los precios y en qué moneda sale más caro un juego?</li>
+<li>¿Desde dónde y cuándo juegan los usuarios?</li>
+<li>¿Qué juegos son los más comprados y tiene relación con su precio?</li>
+<li>¿Qué tan difíciles son los juegos según sus trofeos?</li>
+</ol>
+</div>
+<div id="objetivos" class="section level2 hasAnchor" number="1.3">
+<h2><span class="header-section-number">1.3</span> Objetivos<a href="introduccion.html#objetivos" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p><strong>Objetivo general.</strong> Construir un dashboard interactivo que permita explorar el catálogo, los precios y el comportamiento de los jugadores de PlayStation Store, para identificar patrones del mercado y apoyar decisiones de desarrolladores, publishers y jugadores.</p>
+<p><strong>Objetivos específicos.</strong></p>
+<table>
+<colgroup>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>#</th>
+<th>Objetivo</th>
+<th>Sección del EDA</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>1</td>
+<td>Describir el catálogo por plataforma, género y publisher</td>
+<td><a href="eda.html#catalogo">3.1</a></td>
+</tr>
+<tr class="even">
+<td>2</td>
+<td>Analizar los precios por género y por plataforma</td>
+<td><a href="eda.html#precios">3.2</a></td>
+</tr>
+<tr class="odd">
+<td>3</td>
+<td>Comparar el precio en las 5 monedas para ver en qué región sale más caro</td>
+<td><a href="eda.html#precios">3.2</a></td>
+</tr>
+<tr class="even">
+<td>4</td>
+<td>Describir cómo creció el número de lanzamientos por año y género</td>
+<td><a href="eda.html#catalogo">3.1</a></td>
+</tr>
+<tr class="odd">
+<td>5</td>
+<td>Mostrar desde qué países juegan los usuarios de la muestra</td>
+<td><a href="eda.html#jugadores">3.3</a></td>
+</tr>
+<tr class="even">
+<td>6</td>
+<td>Identificar los juegos con más compradores y su relación con el precio</td>
+<td><a href="eda.html#popularidad">3.4</a></td>
+</tr>
+<tr class="odd">
+<td>7</td>
+<td>Analizar la actividad de los jugadores (trofeos ganados) entre 2008 y 2024</td>
+<td><a href="eda.html#jugadores">3.3</a></td>
+</tr>
+<tr class="even">
+<td>8</td>
+<td>Medir la dificultad de los juegos con la cantidad y la rareza de sus trofeos</td>
+<td><a href="eda.html#logros">3.5</a></td>
+</tr>
+<tr class="odd">
+<td>9</td>
+<td>Revisar si los precios cambiaron entre las capturas de febrero de 2025</td>
+<td><a href="eda.html#precios">3.2</a></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div id="alcance" class="section level2 hasAnchor" number="1.4">
+<h2><span class="header-section-number">1.4</span> Alcance<a href="introduccion.html#alcance" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Es un trabajo <strong>descriptivo y de visualización</strong>: no entrena modelos predictivos. Las conclusiones describen los datos de la muestra y no deben leerse como causas (por ejemplo, que un género sea caro no significa que el género <em>cause</em> el precio).</p>
+
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="index.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="etl.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+  "sharing": null,
+  "fontsettings": {
+    "theme": "white",
+    "family": "sans",
+    "size": 2
+  },
+  "edit": null,
+  "history": {
+    "link": null,
+    "text": null
+  },
+  "view": {
+    "link": null,
+    "text": null
+  },
+  "download": null,
+  "search": {
+    "engine": "fuse",
+    "options": null
+  },
+  "toc": {
+    "collapse": "subsection"
+  }
+});
+});
+</script>
+
+</body>
+
+</html>

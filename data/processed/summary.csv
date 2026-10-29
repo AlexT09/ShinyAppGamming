@@ -1,0 +1,73 @@
+key,value,display
+n_games,23151,"23,151"
+n_titles,11153,"11,153"
+n_publishers,2493,"2,493"
+top_platform,PS4,PS4
+top_platform_pct,61.2,61.2%
+ps5_pct,27.7,27.7%
+peak_year,2024,2024
+peak_year_n,5091,"5,091"
+launches_2015,543,543
+launches_2024,5091,"5,091"
+growth_2015_2024,837.6,838%
+top_genre,Action,Action
+top_genre_pct,13.7,13.7%
+top_publisher,eastasiasoft,eastasiasoft
+top_publisher_n,1150,"1,150"
+n_priced,20193,"20,193"
+n_no_price,2958,"2,958"
+median_price,7.99,$7.99
+pct_under_10,62.1,62.1%
+pct_over_40,2.9,2.9%
+cheapest_genre,Pinball,Pinball
+cheapest_genre_median,1.99,$1.99
+priciest_genre,Action Horror,Action Horror
+priciest_genre_median,24.99,$24.99
+median_ps4,7.99,$7.99
+median_ps5,6.99,$6.99
+priciest_currency,EUR,EUR
+priciest_currency_diff,5.0,5.0%
+cheapest_currency,RUB,RUB
+cheapest_currency_diff,-19.1,-19.1%
+n_price_changed,21,21
+n_multi_snapshot,20193,"20,193"
+pct_price_changed,0.1,0.10%
+n_players,356600,"356,600"
+n_countries,70,70
+top_country,United States,United States
+top_country_pct,22.79,22.8%
+top5_countries_pct,56.1,56.1%
+n_players_library,46582,"46,582"
+median_library,157,157
+n_trophy_events,15295351,"15,295,351"
+peak_month,2022-07,2022-07
+peak_month_trophies,148096,"148,096"
+peak_hour,1,01:00
+low_hour,12,12:00
+peak_weekday,Domingo,Domingo
+weekend_pct,33.3,33.3%
+last_month,2024-12,2024-12
+active_peak_year,2020,2020
+active_peak_avg,3156,"3,156"
+active_last_year,2024,2024
+active_last_avg,2232,"2,232"
+active_first_avg,435,435
+active_first_year,2008,2008
+trophies_per_active_peak,35.3,35
+trophies_per_active_last,46.6,47
+top5_countries,"United States, Spain, United Kingdom, France, Brazil","United States, Spain, United Kingdom, France, Brazil"
+p90_library,476,476
+max_library,13540,"13,540"
+top_owned_game,Grand Theft Auto V,Grand Theft Auto V
+top_owned_pct,66.0,66.0%
+spearman_price_owners,0.02,0.02
+most_owned_genre,Open World,Open World
+most_owned_genre_median,756,756
+median_trophies,21,21
+pct_platinum,82.6,82.6%
+earn_bronze,42.81,42.8%
+earn_silver,31.71,31.7%
+earn_gold,26.75,26.8%
+earn_platinum,19.54,19.5%
+rarest_trophy,Perfection (NBA 2K16),Perfection (NBA 2K16)
+rarest_trophy_rate,0.17,0.17%

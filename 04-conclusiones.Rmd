@@ -1,0 +1,42 @@
+# Conclusiones {#conclusiones}
+
+## Respuesta a la pregunta de investigación
+
+PlayStation Store es un catálogo **joven, barato y muy concentrado**: la mayoría de los juegos son recientes y cuestan poco, pero la popularidad, la audiencia y la producción se concentran en unos pocos títulos, países y publishers.
+
+| # | Objetivo | Hallazgo |
+|---|---|---|
+| 1 | Catálogo | `r S$top_platform` concentra el `r S$top_platform_pct` de los productos; `r S$top_genre` es el género más común (`r S$top_genre_pct`) y `r S$top_publisher` el publisher con más productos (`r S$top_publisher_n`). |
+| 2 | Precios | Mediana de `r S$median_price`; el `r S$pct_under_10` cuesta menos de \$10. `r S$priciest_genre` es el género más caro (`r S$priciest_genre_median`) y `r S$cheapest_genre` el más barato (`r S$cheapest_genre_median`). |
+| 3 | Monedas | El mismo juego cuesta `r S$priciest_currency_diff` más en `r S$priciest_currency` y `r S$cheapest_currency_diff` en `r S$cheapest_currency` que en USD. |
+| 4 | Crecimiento | De `r S$launches_2015` lanzamientos en 2015 a `r S$launches_2024` en 2024 (`r S$growth_2015_2024`). |
+| 5 | Geografía | `r S$top_country` aporta el `r S$top_country_pct` de los jugadores; los 5 primeros países, el `r S$top5_countries_pct`. |
+| 6 | Popularidad | `r S$top_owned_game` está en el `r S$top_owned_pct` de las bibliotecas; el precio casi no se relaciona con la popularidad (Spearman `r S$spearman_price_owners`). |
+| 7 | Actividad | Pico de jugadores activos en `r S$active_peak_year`; el fin de semana concentra el `r S$weekend_pct` de los trofeos. |
+| 8 | Dificultad | El Platinum lo consigue en mediana el `r S$earn_platinum` de los jugadores de un juego, frente al `r S$earn_bronze` de un Bronze. |
+| 9 | Cambios de precio | Solo `r S$n_price_changed` juegos (`r S$pct_price_changed`) cambiaron de precio entre capturas. |
+
+## Recomendaciones
+
+- **Desarrolladores indie:** el rango de menos de \$5 es el más poblado del catálogo y un precio bajo no garantiza compradores (objetivo 6), así que competir solo por precio tiene poco efecto; conviene invertir en visibilidad.
+- **Publishers:** la diferencia de precios por región es grande (objetivo 3); vale la pena revisar si el precio en euros, el más alto, está alineado con el resto de regiones.
+- **Jugadores:** los precios son estables en el corto plazo (objetivo 9), así que no hay ventaja en esperar unos días; las rebajas habría que estudiarlas con un historial más largo.
+
+## Limitaciones
+
+<div class="limit">
+
+- **Precios de 2025:** las capturas son de 4 días de febrero de 2025. No hay historial de precios, así que no se puede medir su evolución a lo largo de los años.
+- **Muestra de jugadores:** no es un censo de PlayStation. Solo `r S$n_players_library` perfiles tienen biblioteca pública.
+- **Compras ≠ ventas:** la popularidad cuenta cuántos jugadores de la muestra tienen el juego, no las unidades vendidas.
+- **Ediciones regionales:** `r S$n_games` productos corresponden a `r S$n_titles` títulos únicos; se analizan como productos distintos de la tienda.
+- **Tasas de cambio:** la comparación de monedas usa tasas aproximadas del 24-feb-2025.
+- **Zona horaria:** las horas de la actividad no indican su zona horaria; probablemente son UTC.
+
+</div>
+
+## Trabajo futuro
+
+- Repetir el análisis con las tablas de **Steam y Xbox** del mismo dataset para comparar las tres tiendas.
+- Capturar precios durante varios meses para estudiar descuentos y temporadas de rebajas.
+- Agregar las reseñas de Steam para relacionar popularidad con valoración.

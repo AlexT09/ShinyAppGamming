@@ -1,0 +1,12 @@
+bookdown::gitbook:
+  css: style.css
+  split_by: chapter
+  config:
+    toc:
+      before: |
+        <li><a href="./">PS Gaming Analytics 2025</a></li>
+      after: |
+        <li><a href="https://github.com/AlexT09/ShinyAppGamming" target="_blank">Repositorio en GitHub</a></li>
+    download: null
+    edit: null
+    sharing: null

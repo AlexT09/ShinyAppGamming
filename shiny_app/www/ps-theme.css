@@ -1,0 +1,190 @@
+/* ps-theme.css — Tema compartido por el dashboard Dash y la app Shiny.
+   Los dos generan la misma estructura HTML con estas clases, así se ven iguales. */
+:root {
+  --bg: #0A0F1E;
+  --sidebar: #0D1426;
+  --card: #111827;
+  --border: #1E2D4A;
+  --blue: #0070D1;
+  --accent: #00AAFF;
+  --text: #F0F4FF;
+  --muted: #8B9BB4;
+  --faint: #4B5A72;
+  --green: #22C55E;
+  --amber: #F59E0B;
+  --red: #EF4444;
+  --purple: #A78BFA;
+}
+
+* { box-sizing: border-box; }
+html, body {
+  margin: 0; background: var(--bg) !important; color: var(--text);
+  font-family: 'Inter', 'Segoe UI', Arial, sans-serif; font-size: 14px;
+}
+a { color: var(--accent); }
+
+/* ── Estructura ─────────────────────────────────────────────── */
+.app-shell { display: flex; min-height: 100vh; }
+.sidebar {
+  width: 240px; min-width: 240px; background: var(--sidebar);
+  border-right: 1px solid var(--border); display: flex; flex-direction: column;
+  position: sticky; top: 0; height: 100vh; overflow-y: auto;
+}
+.content { flex: 1; min-width: 0; padding: 22px 26px 40px; }
+
+.brand { display: flex; align-items: center; gap: 10px; padding: 18px 16px 14px;
+  border-bottom: 1px solid var(--border); }
+.brand-logo { width: 34px; height: 34px; border-radius: 9px; display: grid; place-items: center;
+  background: linear-gradient(135deg, var(--blue), var(--accent)); color: #fff; font-size: 18px; }
+.brand-title { font-size: 14px; font-weight: 700; color: var(--text); }
+.brand-sub { font-size: 11px; color: var(--muted); }
+
+.nav-group-title { font-size: 10px; font-weight: 600; color: var(--faint); text-transform: uppercase;
+  letter-spacing: .1em; padding: 14px 18px 4px; }
+.nav-item {
+  display: flex; align-items: center; gap: 9px; margin: 2px 8px; padding: 8px 12px;
+  border-radius: 8px; color: var(--muted) !important; font-size: 13px; text-decoration: none !important;
+  border-left: 3px solid transparent; cursor: pointer; transition: background .15s, color .15s;
+}
+.nav-item:hover { background: var(--border); color: var(--text) !important; }
+.nav-item.active { background: rgba(0,112,209,.14); color: var(--accent) !important;
+  border-left-color: var(--blue); font-weight: 600; }
+.nav-item i { font-size: 15px; width: 16px; text-align: center; }
+
+.filters { padding: 6px 16px 14px; }
+.filter-label { display: block; font-size: 12px; color: var(--muted); margin: 10px 0 4px; }
+.filter-note { font-size: 11px; color: var(--faint); margin-top: 10px; line-height: 1.4; }
+.sidebar-footer { margin-top: auto; padding: 12px 16px 16px; border-top: 1px solid var(--border);
+  font-size: 11px; color: var(--faint); text-align: center; line-height: 1.5; }
+
+/* ── Controles de filtro (Dash 4 y Shiny/selectize) en tema oscuro ── */
+.filters .dash-dropdown, .filters .dash-dropdown-trigger,
+.filters .selectize-input, .filters .selectize-input.full {
+  background: var(--card) !important; color: var(--text) !important;
+  border: 1px solid var(--border) !important; border-radius: 8px !important; box-shadow: none !important;
+  font-size: 13px; min-height: 36px;
+}
+.filters .dash-dropdown-value, .filters .dash-dropdown-value-item, .filters .dash-dropdown-placeholder,
+.filters .selectize-input .item, .filters .selectize-input input { color: var(--text) !important; }
+.filters .dash-dropdown-trigger-icon { color: var(--muted) !important; }
+.dash-dropdown-content, .selectize-dropdown {
+  background: var(--card) !important; color: var(--text) !important; border: 1px solid var(--border) !important;
+}
+.dash-dropdown-option, .selectize-dropdown .option { color: var(--text) !important; }
+.dash-dropdown-option:hover, .dash-dropdown-option[data-highlighted],
+.selectize-dropdown .option.active { background: var(--border) !important; color: var(--text) !important; }
+.dash-dropdown-search, .dash-dropdown-search-container { background: var(--sidebar) !important; color: var(--text) !important; }
+
+.filters .dash-slider-range { background: var(--blue) !important; }
+.filters .dash-slider-thumb { background: var(--accent) !important; border-color: var(--accent) !important; }
+.filters .dash-slider-track { background: var(--border) !important; }
+.filters .dash-slider-mark { color: var(--muted) !important; font-size: 10px; }
+.filters .dash-range-slider-inputs { display: none !important; }
+.filters .irs--shiny .irs-bar { background: var(--blue); border-color: var(--blue); }
+.filters .irs--shiny .irs-line { background: var(--border); border: none; }
+.filters .irs--shiny .irs-handle { background: var(--accent); border-color: var(--accent); box-shadow: none; }
+.filters .irs--shiny .irs-from, .filters .irs--shiny .irs-to, .filters .irs--shiny .irs-single { background: var(--blue); }
+.filters .irs--shiny .irs-grid-text, .filters .irs--shiny .irs-min, .filters .irs--shiny .irs-max { color: var(--muted); background: none; }
+.filters .form-group, .filters .shiny-input-container { margin-bottom: 0; width: 100% !important; }
+
+/* ── Encabezado de sección ──────────────────────────────────── */
+.section-header { display: flex; align-items: center; gap: 12px; padding-bottom: 14px;
+  border-bottom: 1px solid var(--border); margin-bottom: 18px; }
+.section-header i { font-size: 22px; color: var(--blue); }
+.section-header h4 { font-size: 19px; font-weight: 700; color: var(--text); margin: 0; }
+.section-header p { font-size: 13px; color: var(--muted); margin: 2px 0 0; }
+.objective-tags { display: flex; gap: 6px; flex-wrap: wrap; margin-left: auto; }
+.tag { background: rgba(0,112,209,.14); color: var(--accent); border: 1px solid rgba(0,112,209,.35);
+  font-size: 11px; font-weight: 600; padding: 3px 9px; border-radius: 20px; white-space: nowrap; }
+
+/* ── Rejillas ───────────────────────────────────────────────── */
+.grid { display: grid; gap: 14px; margin-bottom: 14px; }
+.grid-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.grid-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+.grid-60-40 { grid-template-columns: 3fr 2fr; }
+@media (max-width: 1100px) { .grid-2, .grid-3, .grid-60-40 { grid-template-columns: minmax(0, 1fr); } }
+@media (max-width: 760px) {
+  .app-shell { flex-direction: column; }
+  .sidebar { width: 100%; min-width: 0; height: auto; position: static; }
+  .content { padding: 16px; }
+}
+
+/* ── Tarjetas ───────────────────────────────────────────────── */
+.ps-card { background: var(--card); border: 1px solid var(--border); border-radius: 12px; overflow: hidden; }
+.ps-card-header { background: var(--sidebar); border-bottom: 1px solid var(--border); padding: 11px 16px;
+  font-size: 13px; font-weight: 600; color: var(--text); display: flex; align-items: center; gap: 8px; }
+.ps-card-header i { color: var(--accent); }
+.ps-card-body { padding: 12px 16px; }
+.card-note { font-size: 12px; color: var(--muted); margin: 6px 0 0; line-height: 1.45; }
+.interp { margin-top: 10px; padding: 10px 12px; background: rgba(0,170,255,.06); border-left: 3px solid var(--accent);
+  border-radius: 0 8px 8px 0; font-size: 12.8px; color: #C9D6EC; line-height: 1.55; }
+.interp strong { color: var(--accent); }
+.interp:empty:not(.shiny-html-output) { display: none; }  /* Shiny no dibuja salidas ocultas */
+/* Shiny pone display:contents en sus salidas; estas necesitan su propia caja */
+.interp.shiny-html-output { display: block !important; }
+.kpi-grid.shiny-html-output { display: grid !important; }
+
+/* ── KPI ────────────────────────────────────────────────────── */
+.kpi-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(165px, 1fr)); gap: 12px; margin-bottom: 16px; }
+.kpi-box { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 16px 18px;
+  position: relative; overflow: hidden; }
+.kpi-box::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px;
+  background: var(--kpi-color, var(--blue)); }
+.kpi-label { color: var(--muted); font-size: 11px; text-transform: uppercase; letter-spacing: .07em; margin-bottom: 6px; }
+.kpi-value { color: var(--text); font-size: 25px; font-weight: 700; line-height: 1.1; font-variant-numeric: tabular-nums; }
+.kpi-sub { color: var(--muted); font-size: 11px; margin-top: 4px; }
+
+/* ── Texto ──────────────────────────────────────────────────── */
+.text-card p, .text-card li { color: #B8C9E4; font-size: 13.5px; line-height: 1.6; }
+.text-card ol, .text-card ul { padding-left: 20px; margin: 0; }
+.text-card strong { color: var(--text); }
+.question { background: rgba(0,112,209,.12); border-left: 3px solid var(--blue); border-radius: 0 8px 8px 0;
+  padding: 12px 16px; font-weight: 600; color: var(--text); margin-bottom: 12px; font-size: 14px; }
+.insight-box { background: #0D1F3C; border-left: 3px solid var(--blue); border-radius: 0 8px 8px 0;
+  padding: 10px 14px; margin-bottom: 9px; font-size: 13px; color: #B8C9E4; line-height: 1.5; }
+.insight-box strong { color: var(--accent); }
+.insight-box.warn { border-left-color: var(--amber); }
+.insight-box.warn strong { color: var(--amber); }
+
+.step-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); gap: 12px; }
+.step { background: #0D1426; border: 1px solid var(--border); border-top: 3px solid var(--step-color, var(--blue));
+  border-radius: 10px; padding: 14px; }
+.step-num { font-size: 22px; font-weight: 800; color: var(--step-color, var(--blue)); line-height: 1; }
+.step-title { font-size: 13px; font-weight: 700; color: var(--text); margin: 6px 0 4px; }
+.step-desc { font-size: 12px; color: var(--muted); line-height: 1.45; margin: 0; }
+
+/* ── Tablas (Dash DataTable y DT de Shiny) ─────────────────── */
+.ps-table { width: 100%; border-collapse: collapse; font-size: 12.5px; }
+.ps-table th { background: var(--sidebar); color: var(--muted); font-weight: 600; font-size: 11px;
+  text-transform: uppercase; letter-spacing: .05em; text-align: left; padding: 8px 10px; border-bottom: 1px solid var(--border); }
+.ps-table td { color: var(--text); padding: 7px 10px; border-bottom: 1px solid var(--border); }
+.ps-table td.num, .ps-table th.num { text-align: right; font-variant-numeric: tabular-nums; }
+
+.dash-spreadsheet-container .dash-spreadsheet-inner th { background: var(--sidebar) !important; color: var(--muted) !important; }
+.dash-spreadsheet-container .dash-spreadsheet-inner td { background: var(--card) !important; color: var(--text) !important; }
+.dash-spreadsheet-container .dash-filter input { color: var(--text) !important; }
+
+table.dataTable, table.dataTable tbody tr { background: var(--card) !important; color: var(--text) !important; }
+table.dataTable thead th { background: var(--sidebar) !important; color: var(--muted) !important; border-bottom: 1px solid var(--border) !important; }
+table.dataTable tbody td { border-top: 1px solid var(--border) !important; }
+.dataTables_wrapper .dataTables_info, .dataTables_wrapper .dataTables_length,
+.dataTables_wrapper .dataTables_filter, .dataTables_wrapper .dataTables_paginate { color: var(--muted) !important; }
+.dataTables_wrapper input, .dataTables_wrapper select { background: var(--sidebar) !important; color: var(--text) !important;
+  border: 1px solid var(--border) !important; border-radius: 6px; }
+.dataTables_wrapper .paginate_button { color: var(--muted) !important; }
+.dataTables_wrapper .paginate_button.current { background: var(--border) !important; color: var(--text) !important; border: none !important; }
+/* DT con Bootstrap 5 (Shiny/bslib): filas y paginación en tema oscuro */
+.dataTables_wrapper table.dataTable > tbody > tr > td,
+.dataTables_wrapper table.dataTable > thead > tr > th {
+  background-color: var(--card) !important; color: var(--text) !important; box-shadow: none !important;
+  border-color: var(--border) !important; }
+.dataTables_wrapper table.dataTable > thead > tr > th { color: var(--muted) !important; background-color: var(--sidebar) !important; }
+.dataTables_wrapper .page-link { background: var(--card) !important; color: var(--muted) !important; border-color: var(--border) !important; }
+.dataTables_wrapper .page-item.active .page-link { background: var(--blue) !important; color: #fff !important; }
+.dataTables_wrapper .page-item.disabled .page-link { opacity: .5; }
+
+/* ── Scrollbar ──────────────────────────────────────────────── */
+::-webkit-scrollbar { width: 7px; height: 7px; }
+::-webkit-scrollbar-track { background: var(--bg); }
+::-webkit-scrollbar-thumb { background: var(--border); border-radius: 4px; }
+::-webkit-scrollbar-thumb:hover { background: var(--blue); }

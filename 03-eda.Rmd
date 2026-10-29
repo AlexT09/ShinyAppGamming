@@ -1,4 +1,177 @@
-# Análisis Exploratorio de Datos (EDA)
+# Análisis exploratorio (EDA) {#eda}
 
-Contenido pendiente...
+```{r eda-data}
+gg <- rd("game_genres.csv")
+lib <- rd("player_library.csv")
+act <- rd("activity_monthly.csv") |> mutate(month = as.Date(paste0(month, "-01")))
+heat <- rd("activity_heatmap.csv")
+rar <- rd("rarity_summary.csv")
+rare <- rd("rarest_trophies.csv")
+priced <- games |> filter(!is.na(price_usd))
+top_g <- function(df, n) df |> filter(genre_main != "Sin género") |> count(genre_main, sort = TRUE) |> head(n) |> pull(genre_main)
+```
 
+Cada sección responde a uno o varios objetivos. Los gráficos de este libro son **estáticos** (`ggplot2`); las versiones interactivas, con filtros por plataforma, género y año, están en la app Shiny.
+
+## Catálogo (objetivos 1 y 4) {#catalogo}
+
+```{r lanzamientos, fig.cap="Productos lanzados por año y plataforma (2025 solo incluye enero)."}
+games |> count(year, platform) |>
+  ggplot(aes(year, n, fill = platform)) + geom_col() +
+  scale_fill_manual(values = PLATFORM_COLORS) + scale_y_continuous(labels = comma) +
+  labs(x = "Año de lanzamiento", y = "Productos", fill = NULL)
+```
+
+<div class="interp">**Interpretación:** el catálogo es reciente y creció muy rápido: los lanzamientos pasaron de `r S$launches_2015` en 2015 a `r S$launches_2024` en 2024 (`r S$growth_2015_2024`), con el pico en `r S$peak_year`. `r S$top_platform` concentra el `r S$top_platform_pct` de los productos, aunque PS5 ya reparte casi la mitad de los lanzamientos de 2024.</div>
+
+```{r publishers, fig.height=4.8, fig.cap="Los 15 publishers con más productos."}
+pub <- games |> count(publisher, sort = TRUE) |> head(15)
+pub |> ggplot(aes(n, reorder(publisher, n))) + geom_col(fill = "#0070D1") +
+  geom_text(aes(label = comma(n)), hjust = -0.15, size = 3.2) +
+  scale_x_continuous(expand = expansion(mult = c(0, .12))) + labs(x = "Productos", y = NULL)
+m_top <- median(priced$price_usd[priced$publisher %in% pub$publisher])
+m_rest <- median(priced$price_usd[!priced$publisher %in% pub$publisher])
+```
+
+<div class="interp">**Interpretación:** los 15 primeros publishers reúnen el `r percent(mean(games$publisher %in% pub$publisher), .1)` del catálogo y `r S$top_publisher` lidera con `r S$top_publisher_n` productos. El precio mediano de sus juegos es `r dollar(m_top)` frente a `r dollar(m_rest)` del resto: los que más publican venden juegos baratos (muchos títulos pequeños, a menudo en varias ediciones regionales).</div>
+
+```{r generos-anio, fig.cap="Lanzamientos por año de los 6 géneros principales más comunes."}
+t6 <- top_g(games, 6)
+games |> filter(genre_main %in% t6, year <= 2024) |> count(year, genre_main) |>
+  mutate(genre_main = factor(genre_main, levels = t6)) |>
+  ggplot(aes(year, n, color = genre_main)) + geom_line(linewidth = 1) + geom_point(size = 1.4) +
+  scale_color_manual(values = c("#636EFA", "#EF553B", "#00CC96", "#AB63FA", "#FFA15A", "#19D3F3")) +
+  labs(x = "Año de lanzamiento", y = "Productos", color = NULL)
+```
+
+<div class="interp">**Interpretación:** casi todo el crecimiento ocurre desde 2020. `r S$top_genre` es el género principal más común (`r S$top_genre_pct` del catálogo) y también el que más creció. *Indie* tuvo su auge antes (2017–2020) y luego cae; una posible explicación es que los juegos pequeños recientes se etiquetan con géneros más específicos.</div>
+
+## Precios (objetivos 2, 3 y 9) {#precios}
+
+```{r box-genero, fig.height=4.8, fig.cap="Precio vigente (USD) por género principal; eje recortado en $80."}
+b <- priced |> filter(genre_main %in% top_g(priced, 12))
+b |> ggplot(aes(reorder(genre_main, -price_usd, median), price_usd)) +
+  geom_boxplot(fill = "#BFDBFE", color = "#0070D1", outlier.shape = NA) +
+  coord_cartesian(ylim = c(0, 80)) + scale_y_continuous(labels = dollar) +
+  labs(x = NULL, y = "Precio (USD)") + theme(axis.text.x = element_text(angle = 35, hjust = 1))
+```
+
+<div class="interp">**Interpretación:** la mediana del catálogo es `r S$median_price` y el `r S$pct_under_10` de los juegos cuesta menos de \$10. Entre los géneros con al menos 50 juegos, `r S$priciest_genre` es el más caro (mediana `r S$priciest_genre_median`) y `r S$cheapest_genre` el más barato (`r S$cheapest_genre_median`). Los bigotes largos muestran que en casi todos los géneros conviven juegos baratos y AAA caros, por eso se usa la mediana y no el promedio.</div>
+
+```{r monedas, fig.height=3.6, fig.cap="Diferencia mediana del precio local (convertido a USD) frente al precio en USD del mismo juego."}
+cur <- lapply(c("eur", "gbp", "jpy", "rub"), function(c) {
+  col <- paste0("price_", c, "_in_usd"); d <- priced[!is.na(priced[[col]]), ]
+  tibble(moneda = toupper(c), dif = (median(d[[col]] / d$price_usd) - 1) * 100)
+}) |> bind_rows()
+cur |> ggplot(aes(reorder(moneda, -dif), dif, fill = moneda)) + geom_col(show.legend = FALSE) +
+  geom_hline(yintercept = 0, color = "grey40") +
+  geom_text(aes(label = sprintf("%+.1f%%", dif), vjust = ifelse(dif > 0, -0.4, 1.3)), size = 3.4) +
+  scale_fill_manual(values = c(EUR = "#22C55E", GBP = "#A78BFA", JPY = "#F59E0B", RUB = "#EF4444")) +
+  scale_y_continuous(labels = label_percent(scale = 1), expand = expansion(mult = .15)) + labs(x = NULL, y = "Diferencia vs USD")
+```
+
+<div class="interp">**Interpretación:** con las tasas del 24-feb-2025, el mismo juego cuesta en mediana `r S$priciest_currency_diff` más en `r S$priciest_currency` y `r S$cheapest_currency_diff` en `r S$cheapest_currency` frente a su precio en USD. Sony fija precios distintos por región: comprar en yenes o rublos sale más barato que en dólares, y en euros un poco más caro.</div>
+
+```{r cambios}
+snap <- rd("prices_snapshots.csv") |> filter(!is.na(usd)) |> arrange(date)
+ch <- snap |> group_by(gameid) |> summarise(first = first(usd), last = last(usd), .groups = "drop") |>
+  filter(first != last) |> left_join(games |> select(gameid, title, platform), by = "gameid") |>
+  mutate(cambio = (last / first - 1) * 100) |> arrange(cambio)
+ch |> transmute(Juego = title, Plataforma = platform, Antes = dollar(first), `Después` = dollar(last), Cambio = sprintf("%+.1f%%", cambio)) |>
+  kable(caption = "Juegos que cambiaron de precio entre el 22 y el 25 de febrero de 2025.", align = "llrrr")
+```
+
+<div class="interp">**Interpretación:** solo `r S$n_price_changed` de `r S$n_multi_snapshot` juegos (`r S$pct_price_changed`) cambiaron de precio: `r sum(ch$cambio < 0)` bajaron y `r sum(ch$cambio > 0)` subieron. En esos 4 días no hubo rebajas masivas, así que los precios del análisis son estables. Para estudiar descuentos haría falta un historial de varios meses.</div>
+
+## Jugadores (objetivos 5 y 7) {#jugadores}
+
+```{r paises, fig.height=4.6, fig.cap="Los 15 países con más jugadores en la muestra."}
+countries |> head(15) |>
+  ggplot(aes(n_players, reorder(country, n_players))) + geom_col(fill = "#A78BFA") +
+  geom_text(aes(label = paste0(round(pct_players, 1), "%")), hjust = -0.15, size = 3.2) +
+  scale_x_continuous(labels = comma, expand = expansion(mult = c(0, .12))) + labs(x = "Jugadores", y = NULL)
+```
+
+<div class="interp">**Interpretación:** la audiencia está concentrada: `r S$top5_countries` suman el `r S$top5_countries_pct` de los `r S$n_players` jugadores. `r S$top_country` tiene más del doble que el segundo país, así que cualquier promedio global refleja sobre todo a sus jugadores. El mapa interactivo de la app Shiny muestra la misma concentración en América y Europa occidental.</div>
+
+```{r actividad, fig.cap="Jugadores activos por mes (ganaron al menos un trofeo). Se excluye el último mes, incompleto."}
+head(act, -1) |> ggplot(aes(month, active_players)) +
+  geom_area(fill = "#F59E0B", alpha = .25) + geom_line(color = "#F59E0B", linewidth = .8) +
+  scale_y_continuous(labels = comma) + labs(x = NULL, y = "Jugadores activos")
+```
+
+<div class="interp">**Interpretación:** los jugadores activos al mes crecieron de `r S$active_first_avg` en `r S$active_first_year` a `r S$active_peak_avg` en `r S$active_peak_year` (coincide con la pandemia) y bajaron a `r S$active_last_avg` en `r S$active_last_year`. Aun así, quien sigue activo gana más trofeos: `r S$trophies_per_active_peak` al mes por jugador en `r S$active_peak_year` frente a `r S$trophies_per_active_last` en `r S$active_last_year`. Los primeros años tienen poca actividad en parte porque muchos de estos jugadores todavía no usaban PlayStation.</div>
+
+```{r heatmap, fig.height=3.6, fig.cap="Trofeos ganados por día de la semana y hora (hora del dataset)."}
+dias <- c("Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado", "Domingo")
+heat |> mutate(weekday = factor(weekday, levels = rev(dias))) |>
+  ggplot(aes(hour, weekday, fill = trophies)) + geom_tile() +
+  scale_fill_gradient(low = "#DBEAFE", high = "#00265F", labels = comma) +
+  scale_x_continuous(breaks = seq(0, 22, 2)) + labs(x = "Hora", y = NULL, fill = "Trofeos")
+```
+
+<div class="interp">**Interpretación:** el fin de semana concentra el `r S$weekend_pct` de los trofeos (si se jugara igual todos los días sería 28.6%). La actividad cae al mínimo a las `r S$low_hour` y llega al máximo a las `r S$peak_hour`; como el pico es de madrugada, las horas probablemente están en UTC, lo que corresponde a la tarde-noche en América.</div>
+
+## Popularidad (objetivo 6) {#popularidad}
+
+```{r top-juegos, fig.height=4.8, fig.cap="Los 15 juegos con más compradores en la muestra."}
+games |> arrange(desc(n_owners)) |> head(15) |>
+  ggplot(aes(n_owners, reorder(title, n_owners))) + geom_col(fill = "#0070D1") +
+  geom_text(aes(label = comma(n_owners)), hjust = -0.1, size = 3.2) +
+  scale_x_continuous(labels = comma, expand = expansion(mult = c(0, .14))) + labs(x = "Compradores", y = NULL)
+```
+
+<div class="interp">**Interpretación:** `r S$top_owned_game` está en el `r S$top_owned_pct` de las `r S$n_players_library` bibliotecas públicas. Los 15 más comprados son grandes producciones de PS4: la popularidad se concentra en pocos títulos conocidos, no en los juegos baratos que dominan el catálogo.</div>
+
+```{r precio-compradores, fig.cap="Precio vigente vs. compradores (eje vertical logarítmico)."}
+priced |> filter(n_owners > 0) |>
+  ggplot(aes(price_usd, n_owners, color = platform)) + geom_point(alpha = .35, size = 1.2) +
+  scale_y_log10(labels = comma) + scale_x_continuous(labels = dollar) +
+  scale_color_manual(values = PLATFORM_COLORS) + labs(x = "Precio (USD)", y = "Compradores", color = NULL)
+```
+
+<div class="interp">**Interpretación:** la correlación de Spearman entre precio y compradores es `r S$spearman_price_owners`, prácticamente nula. Hay juegos de menos de \$5 con miles de compradores y juegos de \$60 con muy pocos: el precio no explica la popularidad; pesan más la marca, el género o la publicidad.</div>
+
+```{r biblioteca, fig.height=3.6, fig.cap="Tamaño de las bibliotecas (se cortan las de más de 1.000 juegos)."}
+med_lib <- median(lib$library_size)
+lib |> filter(library_size <= 1000) |> ggplot(aes(library_size)) +
+  geom_histogram(bins = 50, fill = "#F59E0B") + geom_vline(xintercept = med_lib, linetype = "dashed") +
+  annotate("text", x = med_lib, y = Inf, label = paste(" Mediana:", med_lib), hjust = 0, vjust = 1.5, size = 3.4) +
+  scale_y_continuous(labels = comma) + labs(x = "Juegos en la biblioteca", y = "Jugadores")
+```
+
+<div class="interp">**Interpretación:** la distribución está sesgada a la derecha: la mitad de los jugadores tiene `r S$median_library` juegos o menos y el 90% tiene `r S$p90_library` o menos, pero unos pocos coleccionistas llegan a `r S$max_library`. Por eso el jugador típico se describe con la mediana.</div>
+
+## Logros (objetivo 8) {#logros}
+
+```{r rareza, fig.height=3.6, fig.cap="Porcentaje mediano de jugadores que consigue cada tipo de trofeo (juegos con 200+ jugadores)."}
+rar |> mutate(rarity = factor(rarity, levels = names(RARITY_COLORS))) |>
+  ggplot(aes(rarity, median_earn_rate, fill = rarity)) + geom_col(show.legend = FALSE) +
+  geom_text(aes(label = paste0(round(median_earn_rate, 1), "%")), vjust = -0.4, size = 3.4) +
+  scale_fill_manual(values = RARITY_COLORS) + scale_y_continuous(labels = label_percent(scale = 1), expand = expansion(mult = c(0, .1))) +
+  labs(x = NULL, y = "Jugadores que lo consiguen")
+```
+
+<div class="interp">**Interpretación:** cuanto más alta la rareza, menos jugadores la consiguen: Bronze `r S$earn_bronze`, Silver `r S$earn_silver`, Gold `r S$earn_gold` y Platinum `r S$earn_platinum`. La clasificación de Sony refleja bien la dificultad real; en el juego típico, 1 de cada 5 jugadores llega al Platinum.</div>
+
+```{r mezcla, fig.height=4.6, fig.cap="Composición de los trofeos de cada género según su rareza."}
+mix <- games |> filter(genre_main %in% top_g(games, 12)) |> group_by(genre_main) |>
+  summarise(Bronze = sum(n_bronze), Silver = sum(n_silver), Gold = sum(n_gold), Platinum = sum(n_platinum), .groups = "drop") |>
+  pivot_longer(-genre_main, names_to = "rarity", values_to = "n") |> group_by(genre_main) |> mutate(pct = n / sum(n)) |> ungroup()
+ord <- mix |> filter(rarity == "Bronze") |> arrange(pct) |> pull(genre_main)
+mix |> mutate(rarity = factor(rarity, levels = rev(names(RARITY_COLORS))), genre_main = factor(genre_main, levels = ord)) |>
+  ggplot(aes(pct, genre_main, fill = rarity)) + geom_col() +
+  scale_fill_manual(values = RARITY_COLORS, breaks = names(RARITY_COLORS)) + scale_x_continuous(labels = percent) +
+  labs(x = "% de los trofeos", y = NULL, fill = NULL)
+```
+
+<div class="interp">**Interpretación:** un juego tiene en mediana `r S$median_trophies` trofeos y el `r S$pct_platinum` tiene Platinum. *Visual Novel* reparte la mayor proporción de Gold y Platinum, pero no porque sea más difícil: sus listas son más cortas, así que cada trofeo vale más. *Role Playing* tiene listas largas, sobre todo de Bronze.</div>
+
+```{r raros}
+rare |> head(10) |>
+  transmute(Trofeo = trophy, Juego = paste0(game, " (", platform, ")"), Rareza = rarity,
+            `Lo tienen` = paste(earners, "/", comma(game_players)), `%` = paste0(earn_rate, "%")) |>
+  kable(caption = "Los 10 trofeos más raros (juegos con 200+ jugadores).", align = "lllrr")
+```
+
+<div class="interp">**Interpretación:** el trofeo más raro es `r S$rarest_trophy`, conseguido por el `r S$rarest_trophy_rate` de sus jugadores. No todos los más raros son Platinum: algunos Bronze o Gold son más difíciles que el Platinum de otros juegos.</div>

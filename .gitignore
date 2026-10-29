@@ -1,0 +1,23 @@
+# R / RStudio
+.Rproj.user/
+.Rhistory
+.RData
+.Ruserdata
+rsconnect/
+*_cache/
+_bookdown_files/
+ps-gaming-analytics_files/
+
+# Datos crudos de Kaggle (3,8 GB): no se suben
+archive*/
+data/raw/
+*.zip
+
+# Python (ETL)
+__pycache__/
+.venv/
+
+# Sistema
+.DS_Store
+Thumbs.db
+desktop.ini

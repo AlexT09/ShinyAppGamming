@@ -1,0 +1,647 @@
+<!DOCTYPE html>
+<html lang="es" xml:lang="es">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Capítulo 3 Análisis exploratorio (EDA) | PS Gaming Analytics 2025</title>
+  <meta name="description" content="Análisis exploratorio y visualización del esquema PlayStation del dataset Gaming Profiles 2025 (Kaggle, CC0), con un dashboard en Shiny y otro en Dash." />
+  <meta name="generator" content="bookdown 0.48 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="Capítulo 3 Análisis exploratorio (EDA) | PS Gaming Analytics 2025" />
+  <meta property="og:type" content="book" />
+  
+  <meta property="og:description" content="Análisis exploratorio y visualización del esquema PlayStation del dataset Gaming Profiles 2025 (Kaggle, CC0), con un dashboard en Shiny y otro en Dash." />
+  
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Capítulo 3 Análisis exploratorio (EDA) | PS Gaming Analytics 2025" />
+  
+  <meta name="twitter:description" content="Análisis exploratorio y visualización del esquema PlayStation del dataset Gaming Profiles 2025 (Kaggle, CC0), con un dashboard en Shiny y otro en Dash." />
+  
+
+<meta name="author" content="Alex Terán" />
+
+
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="etl.html"/>
+<link rel="next" href="conclusiones.html"/>
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+<link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
+<link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
+
+
+<style type="text/css">
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { color: #008000; } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { color: #008000; font-weight: bold; } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<style type="text/css">
+  
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">PS Gaming Analytics 2025</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Presentación</a>
+<ul>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#c%C3%B3mo-reproducirlo"><i class="fa fa-check"></i>Cómo reproducirlo</a></li>
+</ul></li>
+<li class="chapter" data-level="1" data-path="introduccion.html"><a href="introduccion.html"><i class="fa fa-check"></i><b>1</b> Introducción</a>
+<ul>
+<li class="chapter" data-level="1.1" data-path="introduccion.html"><a href="introduccion.html#contexto"><i class="fa fa-check"></i><b>1.1</b> Contexto</a></li>
+<li class="chapter" data-level="1.2" data-path="introduccion.html"><a href="introduccion.html#pregunta-de-investigaci%C3%B3n"><i class="fa fa-check"></i><b>1.2</b> Pregunta de investigación</a></li>
+<li class="chapter" data-level="1.3" data-path="introduccion.html"><a href="introduccion.html#objetivos"><i class="fa fa-check"></i><b>1.3</b> Objetivos</a></li>
+<li class="chapter" data-level="1.4" data-path="introduccion.html"><a href="introduccion.html#alcance"><i class="fa fa-check"></i><b>1.4</b> Alcance</a></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="etl.html"><a href="etl.html"><i class="fa fa-check"></i><b>2</b> ETL: extracción, transformación y carga</a>
+<ul>
+<li class="chapter" data-level="2.1" data-path="etl.html"><a href="etl.html#extracci%C3%B3n"><i class="fa fa-check"></i><b>2.1</b> Extracción</a></li>
+<li class="chapter" data-level="2.2" data-path="etl.html"><a href="etl.html#transformaci%C3%B3n"><i class="fa fa-check"></i><b>2.2</b> Transformación</a></li>
+<li class="chapter" data-level="2.3" data-path="etl.html"><a href="etl.html#registro-de-calidad"><i class="fa fa-check"></i><b>2.3</b> Registro de calidad</a></li>
+<li class="chapter" data-level="2.4" data-path="etl.html"><a href="etl.html#carga"><i class="fa fa-check"></i><b>2.4</b> Carga</a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="eda.html"><a href="eda.html"><i class="fa fa-check"></i><b>3</b> Análisis exploratorio (EDA)</a>
+<ul>
+<li class="chapter" data-level="3.1" data-path="eda.html"><a href="eda.html#catalogo"><i class="fa fa-check"></i><b>3.1</b> Catálogo (objetivos 1 y 4)</a></li>
+<li class="chapter" data-level="3.2" data-path="eda.html"><a href="eda.html#precios"><i class="fa fa-check"></i><b>3.2</b> Precios (objetivos 2, 3 y 9)</a></li>
+<li class="chapter" data-level="3.3" data-path="eda.html"><a href="eda.html#jugadores"><i class="fa fa-check"></i><b>3.3</b> Jugadores (objetivos 5 y 7)</a></li>
+<li class="chapter" data-level="3.4" data-path="eda.html"><a href="eda.html#popularidad"><i class="fa fa-check"></i><b>3.4</b> Popularidad (objetivo 6)</a></li>
+<li class="chapter" data-level="3.5" data-path="eda.html"><a href="eda.html#logros"><i class="fa fa-check"></i><b>3.5</b> Logros (objetivo 8)</a></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="conclusiones.html"><a href="conclusiones.html"><i class="fa fa-check"></i><b>4</b> Conclusiones</a>
+<ul>
+<li class="chapter" data-level="4.1" data-path="conclusiones.html"><a href="conclusiones.html#respuesta-a-la-pregunta-de-investigaci%C3%B3n"><i class="fa fa-check"></i><b>4.1</b> Respuesta a la pregunta de investigación</a></li>
+<li class="chapter" data-level="4.2" data-path="conclusiones.html"><a href="conclusiones.html#recomendaciones"><i class="fa fa-check"></i><b>4.2</b> Recomendaciones</a></li>
+<li class="chapter" data-level="4.3" data-path="conclusiones.html"><a href="conclusiones.html#limitaciones"><i class="fa fa-check"></i><b>4.3</b> Limitaciones</a></li>
+<li class="chapter" data-level="4.4" data-path="conclusiones.html"><a href="conclusiones.html#trabajo-futuro"><i class="fa fa-check"></i><b>4.4</b> Trabajo futuro</a></li>
+</ul></li>
+<li class="divider"></li>
+<li><a href="https://github.com/AlexT09/ShinyAppGamming" target="_blank">Repositorio en GitHub</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">PS Gaming Analytics 2025</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="eda" class="section level1 hasAnchor" number="3">
+<h1><span class="header-section-number">Capítulo 3</span> Análisis exploratorio (EDA)<a href="eda.html#eda" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<p>Cada sección responde a uno o varios objetivos. Los gráficos de este libro son <strong>estáticos</strong> (<code>ggplot2</code>); las versiones interactivas, con filtros por plataforma, género y año, están en la app Shiny.</p>
+<div id="catalogo" class="section level2 hasAnchor" number="3.1">
+<h2><span class="header-section-number">3.1</span> Catálogo (objetivos 1 y 4)<a href="eda.html#catalogo" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div class="figure" style="text-align: center"><span style="display:block;" id="fig:lanzamientos"></span>
+<img src="ps-gaming-analytics_files/figure-html/lanzamientos-1.png" alt="Productos lanzados por año y plataforma (2025 solo incluye enero)." width="880" />
+<p class="caption">
+Figura 3.1: Productos lanzados por año y plataforma (2025 solo incluye enero).
+</p>
+</div>
+<div class="interp">
+<strong>Interpretación:</strong> el catálogo es reciente y creció muy rápido: los lanzamientos pasaron de 543 en 2015 a 5,091 en 2024 (838%), con el pico en 2024. PS4 concentra el 61.2% de los productos, aunque PS5 ya reparte casi la mitad de los lanzamientos de 2024.
+</div>
+<div class="figure" style="text-align: center"><span style="display:block;" id="fig:publishers"></span>
+<img src="ps-gaming-analytics_files/figure-html/publishers-1.png" alt="Los 15 publishers con más productos." width="880" />
+<p class="caption">
+Figura 3.2: Los 15 publishers con más productos.
+</p>
+</div>
+<div class="interp">
+<strong>Interpretación:</strong> los 15 primeros publishers reúnen el 29.4% del catálogo y eastasiasoft lidera con 1,150 productos. El precio mediano de sus juegos es $4.99 frente a $12.49 del resto: los que más publican venden juegos baratos (muchos títulos pequeños, a menudo en varias ediciones regionales).
+</div>
+<div class="figure" style="text-align: center"><span style="display:block;" id="fig:generos-anio"></span>
+<img src="ps-gaming-analytics_files/figure-html/generos-anio-1.png" alt="Lanzamientos por año de los 6 géneros principales más comunes." width="880" />
+<p class="caption">
+Figura 3.3: Lanzamientos por año de los 6 géneros principales más comunes.
+</p>
+</div>
+<div class="interp">
+<strong>Interpretación:</strong> casi todo el crecimiento ocurre desde 2020. Action es el género principal más común (13.7% del catálogo) y también el que más creció. <em>Indie</em> tuvo su auge antes (2017–2020) y luego cae; una posible explicación es que los juegos pequeños recientes se etiquetan con géneros más específicos.
+</div>
+</div>
+<div id="precios" class="section level2 hasAnchor" number="3.2">
+<h2><span class="header-section-number">3.2</span> Precios (objetivos 2, 3 y 9)<a href="eda.html#precios" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div class="figure" style="text-align: center"><span style="display:block;" id="fig:box-genero"></span>
+<img src="ps-gaming-analytics_files/figure-html/box-genero-1.png" alt="Precio vigente (USD) por género principal; eje recortado en $80." width="880" />
+<p class="caption">
+Figura 3.4: Precio vigente (USD) por género principal; eje recortado en $80.
+</p>
+</div>
+<div class="interp">
+<strong>Interpretación:</strong> la mediana del catálogo es $7.99 y el 62.1% de los juegos cuesta menos de $10. Entre los géneros con al menos 50 juegos, Action Horror es el más caro (mediana $24.99) y Pinball el más barato ($1.99). Los bigotes largos muestran que en casi todos los géneros conviven juegos baratos y AAA caros, por eso se usa la mediana y no el promedio.
+</div>
+<div class="figure" style="text-align: center"><span style="display:block;" id="fig:monedas"></span>
+<img src="ps-gaming-analytics_files/figure-html/monedas-1.png" alt="Diferencia mediana del precio local (convertido a USD) frente al precio en USD del mismo juego." width="880" />
+<p class="caption">
+Figura 3.5: Diferencia mediana del precio local (convertido a USD) frente al precio en USD del mismo juego.
+</p>
+</div>
+<div class="interp">
+<strong>Interpretación:</strong> con las tasas del 24-feb-2025, el mismo juego cuesta en mediana 5.0% más en EUR y -19.1% en RUB frente a su precio en USD. Sony fija precios distintos por región: comprar en yenes o rublos sale más barato que en dólares, y en euros un poco más caro.
+</div>
+<table>
+<caption><span id="tab:cambios">Tabla 3.1: </span>Juegos que cambiaron de precio entre el 22 y el 25 de febrero de 2025.</caption>
+<colgroup>
+<col width="55%" />
+<col width="14%" />
+<col width="9%" />
+<col width="10%" />
+<col width="10%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="left">Juego</th>
+<th align="left">Plataforma</th>
+<th align="right">Antes</th>
+<th align="right">Después</th>
+<th align="right">Cambio</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">Greyhill Incident</td>
+<td align="left">PS5</td>
+<td align="right">$14.39</td>
+<td align="right">$11.99</td>
+<td align="right">-16.7%</td>
+</tr>
+<tr class="even">
+<td align="left">The Myth Seekers: The Legacy of Vulcan</td>
+<td align="left">PS4</td>
+<td align="right">$17.99</td>
+<td align="right">$14.99</td>
+<td align="right">-16.7%</td>
+</tr>
+<tr class="odd">
+<td align="left">Slave Zero X</td>
+<td align="left">PS5</td>
+<td align="right">$29.99</td>
+<td align="right">$24.99</td>
+<td align="right">-16.7%</td>
+</tr>
+<tr class="even">
+<td align="left">Slave Zero X</td>
+<td align="left">PS4</td>
+<td align="right">$29.99</td>
+<td align="right">$24.99</td>
+<td align="right">-16.7%</td>
+</tr>
+<tr class="odd">
+<td align="left">Slave Zero X</td>
+<td align="left">PS4</td>
+<td align="right">$29.99</td>
+<td align="right">$24.99</td>
+<td align="right">-16.7%</td>
+</tr>
+<tr class="even">
+<td align="left">Madden NFL 22</td>
+<td align="left">PS4</td>
+<td align="right">$69.99</td>
+<td align="right">$59.99</td>
+<td align="right">-14.3%</td>
+</tr>
+<tr class="odd">
+<td align="left">Gran Turismo 7</td>
+<td align="left">PS4</td>
+<td align="right">$69.99</td>
+<td align="right">$59.99</td>
+<td align="right">-14.3%</td>
+</tr>
+<tr class="even">
+<td align="left">BugsBox VR</td>
+<td align="left">PS4</td>
+<td align="right">$14.99</td>
+<td align="right">$16.99</td>
+<td align="right">+13.3%</td>
+</tr>
+<tr class="odd">
+<td align="left">Battlefield 2042</td>
+<td align="left">PS4</td>
+<td align="right">$59.99</td>
+<td align="right">$69.99</td>
+<td align="right">+16.7%</td>
+</tr>
+<tr class="even">
+<td align="left">Battlefield 2042</td>
+<td align="left">PS4</td>
+<td align="right">$59.99</td>
+<td align="right">$69.99</td>
+<td align="right">+16.7%</td>
+</tr>
+<tr class="odd">
+<td align="left">TSUKIHIME A piece of blue glass moon</td>
+<td align="left">PS4</td>
+<td align="right">$49.99</td>
+<td align="right">$59.99</td>
+<td align="right">+20.0%</td>
+</tr>
+<tr class="even">
+<td align="left">Witch on the Holy Night</td>
+<td align="left">PS4</td>
+<td align="right">$39.99</td>
+<td align="right">$49.99</td>
+<td align="right">+25.0%</td>
+</tr>
+<tr class="odd">
+<td align="left">Shadow Gambit: The Cursed Crew</td>
+<td align="left">PS5</td>
+<td align="right">$39.99</td>
+<td align="right">$49.99</td>
+<td align="right">+25.0%</td>
+</tr>
+<tr class="even">
+<td align="left">Piggy Gambit</td>
+<td align="left">PS4</td>
+<td align="right">$5.59</td>
+<td align="right">$7.99</td>
+<td align="right">+42.9%</td>
+</tr>
+<tr class="odd">
+<td align="left">Piggy Gambit</td>
+<td align="left">PS4</td>
+<td align="right">$5.59</td>
+<td align="right">$7.99</td>
+<td align="right">+42.9%</td>
+</tr>
+<tr class="even">
+<td align="left">Lost Eidolons</td>
+<td align="left">PS5</td>
+<td align="right">$24.49</td>
+<td align="right">$39.99</td>
+<td align="right">+63.3%</td>
+</tr>
+<tr class="odd">
+<td align="left">SIFU</td>
+<td align="left">PS4</td>
+<td align="right">$19.99</td>
+<td align="right">$39.99</td>
+<td align="right">+100.1%</td>
+</tr>
+<tr class="even">
+<td align="left">Moving Out 2</td>
+<td align="left">PS4</td>
+<td align="right">$11.99</td>
+<td align="right">$29.99</td>
+<td align="right">+150.1%</td>
+</tr>
+<tr class="odd">
+<td align="left">Moving Out 2</td>
+<td align="left">PS5</td>
+<td align="right">$11.99</td>
+<td align="right">$29.99</td>
+<td align="right">+150.1%</td>
+</tr>
+<tr class="even">
+<td align="left">Injustice: Gods Among Us Ultimate Edition</td>
+<td align="left">PS4</td>
+<td align="right">$19.99</td>
+<td align="right">$59.99</td>
+<td align="right">+200.1%</td>
+</tr>
+<tr class="odd">
+<td align="left">Injustice: Gods Among Us Ultimate Edition</td>
+<td align="left">PS4</td>
+<td align="right">$19.99</td>
+<td align="right">$59.99</td>
+<td align="right">+200.1%</td>
+</tr>
+</tbody>
+</table>
+<div class="interp">
+<strong>Interpretación:</strong> solo 21 de 20,193 juegos (0.10%) cambiaron de precio: 7 bajaron y 14 subieron. En esos 4 días no hubo rebajas masivas, así que los precios del análisis son estables. Para estudiar descuentos haría falta un historial de varios meses.
+</div>
+</div>
+<div id="jugadores" class="section level2 hasAnchor" number="3.3">
+<h2><span class="header-section-number">3.3</span> Jugadores (objetivos 5 y 7)<a href="eda.html#jugadores" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div class="figure" style="text-align: center"><span style="display:block;" id="fig:paises"></span>
+<img src="ps-gaming-analytics_files/figure-html/paises-1.png" alt="Los 15 países con más jugadores en la muestra." width="880" />
+<p class="caption">
+Figura 3.6: Los 15 países con más jugadores en la muestra.
+</p>
+</div>
+<div class="interp">
+<strong>Interpretación:</strong> la audiencia está concentrada: United States, Spain, United Kingdom, France, Brazil suman el 56.1% de los 356,600 jugadores. United States tiene más del doble que el segundo país, así que cualquier promedio global refleja sobre todo a sus jugadores. El mapa interactivo de la app Shiny muestra la misma concentración en América y Europa occidental.
+</div>
+<div class="figure" style="text-align: center"><span style="display:block;" id="fig:actividad"></span>
+<img src="ps-gaming-analytics_files/figure-html/actividad-1.png" alt="Jugadores activos por mes (ganaron al menos un trofeo). Se excluye el último mes, incompleto." width="880" />
+<p class="caption">
+Figura 3.7: Jugadores activos por mes (ganaron al menos un trofeo). Se excluye el último mes, incompleto.
+</p>
+</div>
+<div class="interp">
+<strong>Interpretación:</strong> los jugadores activos al mes crecieron de 435 en 2008 a 3,156 en 2020 (coincide con la pandemia) y bajaron a 2,232 en 2024. Aun así, quien sigue activo gana más trofeos: 35 al mes por jugador en 2020 frente a 47 en 2024. Los primeros años tienen poca actividad en parte porque muchos de estos jugadores todavía no usaban PlayStation.
+</div>
+<div class="figure" style="text-align: center"><span style="display:block;" id="fig:heatmap"></span>
+<img src="ps-gaming-analytics_files/figure-html/heatmap-1.png" alt="Trofeos ganados por día de la semana y hora (hora del dataset)." width="880" />
+<p class="caption">
+Figura 3.8: Trofeos ganados por día de la semana y hora (hora del dataset).
+</p>
+</div>
+<div class="interp">
+<strong>Interpretación:</strong> el fin de semana concentra el 33.3% de los trofeos (si se jugara igual todos los días sería 28.6%). La actividad cae al mínimo a las 12:00 y llega al máximo a las 01:00; como el pico es de madrugada, las horas probablemente están en UTC, lo que corresponde a la tarde-noche en América.
+</div>
+</div>
+<div id="popularidad" class="section level2 hasAnchor" number="3.4">
+<h2><span class="header-section-number">3.4</span> Popularidad (objetivo 6)<a href="eda.html#popularidad" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div class="figure" style="text-align: center"><span style="display:block;" id="fig:top-juegos"></span>
+<img src="ps-gaming-analytics_files/figure-html/top-juegos-1.png" alt="Los 15 juegos con más compradores en la muestra." width="880" />
+<p class="caption">
+Figura 3.9: Los 15 juegos con más compradores en la muestra.
+</p>
+</div>
+<div class="interp">
+<strong>Interpretación:</strong> Grand Theft Auto V está en el 66.0% de las 46,582 bibliotecas públicas. Los 15 más comprados son grandes producciones de PS4: la popularidad se concentra en pocos títulos conocidos, no en los juegos baratos que dominan el catálogo.
+</div>
+<div class="figure" style="text-align: center"><span style="display:block;" id="fig:precio-compradores"></span>
+<img src="ps-gaming-analytics_files/figure-html/precio-compradores-1.png" alt="Precio vigente vs. compradores (eje vertical logarítmico)." width="880" />
+<p class="caption">
+Figura 3.10: Precio vigente vs. compradores (eje vertical logarítmico).
+</p>
+</div>
+<div class="interp">
+<strong>Interpretación:</strong> la correlación de Spearman entre precio y compradores es 0.02, prácticamente nula. Hay juegos de menos de $5 con miles de compradores y juegos de $60 con muy pocos: el precio no explica la popularidad; pesan más la marca, el género o la publicidad.
+</div>
+<div class="figure" style="text-align: center"><span style="display:block;" id="fig:biblioteca"></span>
+<img src="ps-gaming-analytics_files/figure-html/biblioteca-1.png" alt="Tamaño de las bibliotecas (se cortan las de más de 1.000 juegos)." width="880" />
+<p class="caption">
+Figura 3.11: Tamaño de las bibliotecas (se cortan las de más de 1.000 juegos).
+</p>
+</div>
+<div class="interp">
+<strong>Interpretación:</strong> la distribución está sesgada a la derecha: la mitad de los jugadores tiene 157 juegos o menos y el 90% tiene 476 o menos, pero unos pocos coleccionistas llegan a 13,540. Por eso el jugador típico se describe con la mediana.
+</div>
+</div>
+<div id="logros" class="section level2 hasAnchor" number="3.5">
+<h2><span class="header-section-number">3.5</span> Logros (objetivo 8)<a href="eda.html#logros" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div class="figure" style="text-align: center"><span style="display:block;" id="fig:rareza"></span>
+<img src="ps-gaming-analytics_files/figure-html/rareza-1.png" alt="Porcentaje mediano de jugadores que consigue cada tipo de trofeo (juegos con 200+ jugadores)." width="880" />
+<p class="caption">
+Figura 3.12: Porcentaje mediano de jugadores que consigue cada tipo de trofeo (juegos con 200+ jugadores).
+</p>
+</div>
+<div class="interp">
+<strong>Interpretación:</strong> cuanto más alta la rareza, menos jugadores la consiguen: Bronze 42.8%, Silver 31.7%, Gold 26.8% y Platinum 19.5%. La clasificación de Sony refleja bien la dificultad real; en el juego típico, 1 de cada 5 jugadores llega al Platinum.
+</div>
+<div class="figure" style="text-align: center"><span style="display:block;" id="fig:mezcla"></span>
+<img src="ps-gaming-analytics_files/figure-html/mezcla-1.png" alt="Composición de los trofeos de cada género según su rareza." width="880" />
+<p class="caption">
+Figura 3.13: Composición de los trofeos de cada género según su rareza.
+</p>
+</div>
+<div class="interp">
+<strong>Interpretación:</strong> un juego tiene en mediana 21 trofeos y el 82.6% tiene Platinum. <em>Visual Novel</em> reparte la mayor proporción de Gold y Platinum, pero no porque sea más difícil: sus listas son más cortas, así que cada trofeo vale más. <em>Role Playing</em> tiene listas largas, sobre todo de Bronze.
+</div>
+<table>
+<caption><span id="tab:raros">Tabla 3.2: </span>Los 10 trofeos más raros (juegos con 200+ jugadores).</caption>
+<colgroup>
+<col width="21%" />
+<col width="51%" />
+<col width="9%" />
+<col width="10%" />
+<col width="6%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="left">Trofeo</th>
+<th align="left">Juego</th>
+<th align="left">Rareza</th>
+<th align="right">Lo tienen</th>
+<th align="right">%</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">Perfection</td>
+<td align="left">NBA 2K16 (PS4)</td>
+<td align="left">Gold</td>
+<td align="right">1 / 590</td>
+<td align="right">0.17%</td>
+</tr>
+<tr class="even">
+<td align="left">Platinum</td>
+<td align="left">Trove (PS4)</td>
+<td align="left">Platinum</td>
+<td align="right">1 / 565</td>
+<td align="right">0.18%</td>
+</tr>
+<tr class="odd">
+<td align="left">Platinum Trophy</td>
+<td align="left">Injustice: Gods Among Us Ultimate Edition (PS4)</td>
+<td align="left">Platinum</td>
+<td align="right">1 / 562</td>
+<td align="right">0.18%</td>
+</tr>
+<tr class="even">
+<td align="left">Exclusive Tour</td>
+<td align="left">Human: Fall Flat (PS4)</td>
+<td align="left">Bronze</td>
+<td align="right">1 / 547</td>
+<td align="right">0.18%</td>
+</tr>
+<tr class="odd">
+<td align="left">Buckshot</td>
+<td align="left">Human: Fall Flat (PS4)</td>
+<td align="left">Bronze</td>
+<td align="right">1 / 547</td>
+<td align="right">0.18%</td>
+</tr>
+<tr class="even">
+<td align="left">Eye Spy</td>
+<td align="left">Human: Fall Flat (PS4)</td>
+<td align="left">Bronze</td>
+<td align="right">1 / 547</td>
+<td align="right">0.18%</td>
+</tr>
+<tr class="odd">
+<td align="left">Platinum Trophy</td>
+<td align="left">The Elder Scrolls Online (PS4)</td>
+<td align="left">Platinum</td>
+<td align="right">1 / 476</td>
+<td align="right">0.21%</td>
+</tr>
+<tr class="even">
+<td align="left">Scalecaller Savior</td>
+<td align="left">The Elder Scrolls Online (PS4)</td>
+<td align="left">Bronze</td>
+<td align="right">1 / 476</td>
+<td align="right">0.21%</td>
+</tr>
+<tr class="odd">
+<td align="left">Wolfhunter Delver</td>
+<td align="left">The Elder Scrolls Online (PS4)</td>
+<td align="left">Gold</td>
+<td align="right">1 / 476</td>
+<td align="right">0.21%</td>
+</tr>
+<tr class="even">
+<td align="left">Scalebreaker Delver</td>
+<td align="left">The Elder Scrolls Online (PS4)</td>
+<td align="left">Gold</td>
+<td align="right">1 / 476</td>
+<td align="right">0.21%</td>
+</tr>
+</tbody>
+</table>
+<div class="interp">
+<strong>Interpretación:</strong> el trofeo más raro es Perfection (NBA 2K16), conseguido por el 0.17% de sus jugadores. No todos los más raros son Platinum: algunos Bronze o Gold son más difíciles que el Platinum de otros juegos.
+</div>
+
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="etl.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="conclusiones.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+  "sharing": null,
+  "fontsettings": {
+    "theme": "white",
+    "family": "sans",
+    "size": 2
+  },
+  "edit": null,
+  "history": {
+    "link": null,
+    "text": null
+  },
+  "view": {
+    "link": null,
+    "text": null
+  },
+  "download": null,
+  "search": {
+    "engine": "fuse",
+    "options": null
+  },
+  "toc": {
+    "collapse": "subsection"
+  }
+});
+});
+</script>
+
+</body>
+
+</html>

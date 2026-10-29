@@ -1,6 +1,16 @@
-book_filename: "rbook_dataviz2"
-rmd_files: ["index.Rmd", "01-intro.Rmd", "03-eda.Rmd"]
+book_filename: "ps-gaming-analytics"
+output_dir: "docs"
 delete_merged_file: true
+new_session: false
 language:
+  label:
+    fig: "Figura "
+    tab: "Tabla "
   ui:
-    chapter_name: "Chapter "
+    chapter_name: "Capítulo "
+rmd_files:
+  - index.Rmd
+  - 01-introduccion.Rmd
+  - 02-etl.Rmd
+  - 03-eda.Rmd
+  - 04-conclusiones.Rmd

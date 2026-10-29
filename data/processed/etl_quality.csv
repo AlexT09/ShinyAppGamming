@@ -1,0 +1,19 @@
+tabla,paso,filas_antes,filas_despues,detalle
+games,Duplicados por gameid,23151,23151,se conserva una fila por juego
+games,Fecha de lanzamiento válida,23151,23151,fechas nulas o fuera de 2006–2025
+games,Listas de texto a columnas,23151,23151,"géneros, publisher, developer e idiomas; 142 juegos sin género"
+games,Normalización de géneros,120,104,filas = etiquetas de género distintas; se unen mayúsculas (Strategy/strategy) y sinónimos (RPG/Role Playing)
+games,Ediciones regionales (mismo título y plataforma),23151,23151,"13,688 filas marcadas, no se eliminan: son productos distintos de la tienda"
+games,Expansión por género,23151,29575,una fila por juego y género (tabla game_genres)
+prices,Filas duplicadas,62816,62816,capturas idénticas
+prices,Precios inválidos,62816,53090,0 o negativos pasan a nulo; se quitan filas sin ningún precio
+prices,Solo juegos del catálogo,53090,42633,prices incluye juegos que no están en games.csv
+prices,Precio vigente por juego,42633,20799,última de 3 capturas (22-02-2025 a 25-02-2025)
+prices,Atípicos por IQR (solo marca),20799,20799,583 juegos por encima de $40.74; se conservan porque son precios reales (AAA)
+achievements,Duplicados y nulos,846563,846563,un registro por trofeo
+achievements,Solo juegos del catálogo,846563,626958,trofeos de juegos sin ficha en games.csv
+purchased_games,Bibliotecas a conteos,46582,46582,cada lista de juegos se convierte en tamaño de biblioteca y dueños por juego
+history,Limpieza de actividad,19510083,15295351,"sin nulos, sin trofeos repetidos por jugador, fechas válidas y trofeos de juegos del catálogo"
+history,Agregación por mes,15295351,196,filas finales = meses con actividad; también mapa día×hora y rareza real por trofeo
+players,Duplicados por playerid,356600,356600,un registro por jugador
+players,País a código ISO-3,356600,356600,70 países; sin código: ninguno

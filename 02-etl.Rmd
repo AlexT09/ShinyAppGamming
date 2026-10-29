@@ -1,4 +1,83 @@
-# ETL (Extract, Transform, Load)
+# ETL: extracción, transformación y carga {#etl}
 
-Contenido pendiente...
+```{r etl-data}
+q <- rd("etl_quality.csv")
+miss <- rd("missing_raw.csv")
+fx <- rd("fx_rates.csv")
+```
 
+El ETL está en `etl/etl_playstation.py` (Python con pandas). Se eligió Python para esta parte porque `history.csv` pesa unos 800 MB y hay que leerlo **por partes** de 2 millones de filas para no superar ~1 GB de RAM. El resultado son 13 tablas pequeñas en `data/processed/` (≈10 MB) que leen este libro, la app Shiny y el dashboard Dash.
+
+## Extracción
+
+Se leen las 6 tablas crudas del esquema PlayStation. Antes de limpiar, se mide el porcentaje de valores faltantes de cada columna.
+
+```{r faltantes, fig.height=3.6, fig.cap="Valores faltantes en los CSV originales (solo columnas con algún faltante)."}
+miss |> filter(pct_faltante > 0) |>
+  mutate(campo = reorder(paste(tabla, "·", columna), pct_faltante)) |>
+  ggplot(aes(pct_faltante, campo, fill = tabla)) +
+  geom_col() +
+  geom_text(aes(label = paste0(round(pct_faltante, 1), "%")), hjust = -0.1, size = 3.3) +
+  scale_fill_manual(values = c(games = "#0070D1", prices = "#F59E0B")) +
+  scale_x_continuous(limits = c(0, 100), labels = label_percent(scale = 1)) +
+  labs(x = "% de valores faltantes", y = NULL, fill = NULL)
+```
+
+<div class="interp">**Interpretación:** los faltantes se concentran en los precios en RUB (`r round(miss$pct_faltante[miss$columna == "rub"], 1)`%) y JPY (`r round(miss$pct_faltante[miss$columna == "jpy"], 1)`%) y en los idiomas (`r round(miss$pct_faltante[miss$columna == "supported_languages"], 1)`%). No son errores: muchos juegos no se venden en Rusia o Japón y la tienda no siempre publica los idiomas. Las tablas de jugadores, compras, trofeos y actividad no tienen faltantes.</div>
+
+## Transformación
+
+Los pasos principales, con un fragmento del código:
+
+**1. Listas de texto a columnas.** Columnas como `genres` vienen escritas como lista de Python (`"['Action', 'Indie']"`). Se convierten a listas reales y se toma el primer género como *género principal*.
+
+**2. Normalización de géneros.** El dataset escribe el mismo género de varias formas (`Strategy` y `strategy`, `RPG` y `Role Playing`). Se unen en una sola etiqueta:
+
+```python
+GENRE_SYNONYMS = {"rpg": "Role Playing", "fps": "First Person Shooter",
+                  "music/rhythm": "Music & Rhythm", "party!": "Party", ...}
+# además, Strategy/strategy se unen usando la escritura más frecuente con mayúscula
+```
+
+**3. Precio vigente.** `prices` tiene 2 o 3 capturas por juego (22 al 25 de febrero de 2025). Si se unen todas, cada juego se cuenta varias veces y las medianas quedan sesgadas. Se usa solo la última captura:
+
+```python
+p = p.sort_values(["gameid", "date_acquired"])
+last = p.groupby("gameid").tail(1)          # una fila por juego
+```
+
+**4. Enriquecimiento.** País a código ISO-3 (para el mapa), precios convertidos a USD con tasas aproximadas del 24-feb-2025 (`r paste(sprintf("1 %s = %s USD", fx$currency[-1], signif(fx$usd_per_unit[-1], 3)), collapse = "; ")`), dueños por juego a partir de las bibliotecas y trofeos por rareza.
+
+**5. Actividad por partes.** `history.csv` se recorre en bloques; de cada bloque se guardan solo agregados (trofeos por mes, jugadores activos por mes, mapa día × hora y cuántos jugadores ganaron cada trofeo):
+
+```python
+for ch in pd.read_csv("history.csv", chunksize=2_000_000):
+    ch = ch.dropna().drop_duplicates(subset=["playerid", "achievementid"])
+    ...  # se acumulan conteos, nunca se guarda la tabla completa en memoria
+```
+
+## Registro de calidad
+
+Cada paso registra cuántas filas había antes y después:
+
+```{r calidad}
+q |> transmute(Tabla = tabla, Paso = paso, Antes = comma(filas_antes), `Después` = comma(filas_despues), Detalle = detalle) |>
+  kable(align = c("l", "l", "r", "r", "l"))
+```
+
+<div class="interp">**Interpretación:** la limpieza casi no elimina datos de las tablas pequeñas; los cambios grandes son de diseño. `prices` pasa de 62.816 filas a un precio por juego; `history` pierde un 22% de filas porque se quitan trofeos repetidos y trofeos de juegos que no están en el catálogo. Los productos con el mismo título y plataforma (ediciones regionales) se conservan porque son fichas distintas de la tienda: por eso hay `r S$n_games` productos pero `r S$n_titles` títulos únicos.</div>
+
+## Carga
+
+Tablas que quedan en `data/processed/`:
+
+| Archivo | Contenido |
+|---|---|
+| `games_clean.csv` | Una fila por juego: ficha, precio vigente en 5 monedas, dueños y trofeos |
+| `game_genres.csv` | Una fila por juego y género |
+| `prices_snapshots.csv` | Todas las capturas de precio limpias |
+| `countries.csv`, `player_library.csv` | Jugadores por país y tamaño de cada biblioteca |
+| `activity_monthly.csv`, `activity_heatmap.csv` | Actividad por mes y por día × hora |
+| `rarity_summary.csv`, `rarest_trophies.csv` | Rareza real de los trofeos |
+| `etl_quality.csv`, `missing_raw.csv`, `fx_rates.csv` | Calidad, faltantes y tasas de cambio |
+| `summary.csv` | Cifras clave que usan los textos de los dashboards y de este libro |

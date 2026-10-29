@@ -1,0 +1,50 @@
+# Introducción {#introduccion}
+
+## Contexto
+
+PlayStation Store reúne decenas de miles de juegos digitales para PS3, PS4, PS5 y PS Vita, desde producciones AAA de más de \$60 hasta juegos indie de menos de \$1. Como copiar un juego digital casi no cuesta nada, el precio no depende del costo de fabricarlo sino del género, del publisher y de la competencia.
+
+El dataset *Gaming Profiles 2025* reúne datos reales de Steam, PlayStation y Xbox (unos 60 GB en total). Este trabajo usa las 6 tablas del esquema **PlayStation**:
+
+| Tabla | Contenido |
+|---|---|
+| `games` | Ficha de cada juego: título, plataforma, géneros, publisher y fecha de lanzamiento |
+| `prices` | Precio en USD, EUR, GBP, JPY y RUB, capturado varias veces en febrero de 2025 |
+| `players` | Jugadores de la muestra y su país |
+| `purchased_games` | Biblioteca de juegos comprados por cada jugador |
+| `achievements` | Trofeos de cada juego y su rareza (Bronze, Silver, Gold, Platinum) |
+| `history` | Cada trofeo ganado por cada jugador, con fecha y hora (2008–2024) |
+
+## Pregunta de investigación
+
+> **¿Qué patrones de catálogo, precio, audiencia, popularidad y dificultad caracterizan a PlayStation Store según los datos de Gaming Profiles 2025?**
+
+Subpreguntas:
+
+1. ¿Qué plataformas, géneros y publishers dominan el catálogo y cómo creció?
+2. ¿Cómo se distribuyen los precios y en qué moneda sale más caro un juego?
+3. ¿Desde dónde y cuándo juegan los usuarios?
+4. ¿Qué juegos son los más comprados y tiene relación con su precio?
+5. ¿Qué tan difíciles son los juegos según sus trofeos?
+
+## Objetivos
+
+**Objetivo general.** Construir un dashboard interactivo que permita explorar el catálogo, los precios y el comportamiento de los jugadores de PlayStation Store, para identificar patrones del mercado y apoyar decisiones de desarrolladores, publishers y jugadores.
+
+**Objetivos específicos.**
+
+| # | Objetivo | Sección del EDA |
+|---|---|---|
+| 1 | Describir el catálogo por plataforma, género y publisher | \@ref(catalogo) |
+| 2 | Analizar los precios por género y por plataforma | \@ref(precios) |
+| 3 | Comparar el precio en las 5 monedas para ver en qué región sale más caro | \@ref(precios) |
+| 4 | Describir cómo creció el número de lanzamientos por año y género | \@ref(catalogo) |
+| 5 | Mostrar desde qué países juegan los usuarios de la muestra | \@ref(jugadores) |
+| 6 | Identificar los juegos con más compradores y su relación con el precio | \@ref(popularidad) |
+| 7 | Analizar la actividad de los jugadores (trofeos ganados) entre 2008 y 2024 | \@ref(jugadores) |
+| 8 | Medir la dificultad de los juegos con la cantidad y la rareza de sus trofeos | \@ref(logros) |
+| 9 | Revisar si los precios cambiaron entre las capturas de febrero de 2025 | \@ref(precios) |
+
+## Alcance
+
+Es un trabajo **descriptivo y de visualización**: no entrena modelos predictivos. Las conclusiones describen los datos de la muestra y no deben leerse como causas (por ejemplo, que un género sea caro no significa que el género *cause* el precio).

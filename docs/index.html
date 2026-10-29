@@ -1,29 +1,28 @@
 <!DOCTYPE html>
-<html lang="" xml:lang="">
+<html lang="es" xml:lang="es">
 <head>
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>Análisis y Visualización de Datos</title>
-  <meta name="description" content="Análisis y Visualización de Datos" />
-  <meta name="generator" content="bookdown 0.46 and GitBook 2.6.7" />
+  <title>PS Gaming Analytics 2025</title>
+  <meta name="description" content="Análisis exploratorio y visualización del esquema PlayStation del dataset Gaming Profiles 2025 (Kaggle, CC0), con un dashboard en Shiny y otro en Dash." />
+  <meta name="generator" content="bookdown 0.48 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="Análisis y Visualización de Datos" />
+  <meta property="og:title" content="PS Gaming Analytics 2025" />
   <meta property="og:type" content="book" />
   
-  
+  <meta property="og:description" content="Análisis exploratorio y visualización del esquema PlayStation del dataset Gaming Profiles 2025 (Kaggle, CC0), con un dashboard en Shiny y otro en Dash." />
   
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="Análisis y Visualización de Datos" />
+  <meta name="twitter:title" content="PS Gaming Analytics 2025" />
   
-  
+  <meta name="twitter:description" content="Análisis exploratorio y visualización del esquema PlayStation del dataset Gaming Profiles 2025 (Kaggle, CC0), con un dashboard en Shiny y otro en Dash." />
   
 
-<meta name="author" content="Tu Nombre" />
+<meta name="author" content="Alex Terán" />
 
 
-<meta name="date" content="2026-04-09" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -31,7 +30,7 @@
   
   
 
-<link rel="next" href="introducción.html"/>
+<link rel="next" href="introduccion.html"/>
 <script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
@@ -54,12 +53,78 @@
 <script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
 
 
+<style type="text/css">
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { color: #008000; } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { color: #008000; font-weight: bold; } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
 
 <style type="text/css">
   
   div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
 </style>
 
+<link rel="stylesheet" href="style.css" type="text/css" />
 </head>
 
 <body>
@@ -72,9 +137,45 @@
       <nav role="navigation">
 
 <ul class="summary">
-<li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> Portada</a></li>
-<li class="chapter" data-level="2" data-path="introducción.html"><a href="introducción.html"><i class="fa fa-check"></i><b>2</b> Introducción</a></li>
-<li class="chapter" data-level="3" data-path="análisis-exploratorio-de-datos-eda.html"><a href="análisis-exploratorio-de-datos-eda.html"><i class="fa fa-check"></i><b>3</b> Análisis Exploratorio de Datos (EDA)</a></li>
+<li><a href="./">PS Gaming Analytics 2025</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Presentación</a>
+<ul>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#c%C3%B3mo-reproducirlo"><i class="fa fa-check"></i>Cómo reproducirlo</a></li>
+</ul></li>
+<li class="chapter" data-level="1" data-path="introduccion.html"><a href="introduccion.html"><i class="fa fa-check"></i><b>1</b> Introducción</a>
+<ul>
+<li class="chapter" data-level="1.1" data-path="introduccion.html"><a href="introduccion.html#contexto"><i class="fa fa-check"></i><b>1.1</b> Contexto</a></li>
+<li class="chapter" data-level="1.2" data-path="introduccion.html"><a href="introduccion.html#pregunta-de-investigaci%C3%B3n"><i class="fa fa-check"></i><b>1.2</b> Pregunta de investigación</a></li>
+<li class="chapter" data-level="1.3" data-path="introduccion.html"><a href="introduccion.html#objetivos"><i class="fa fa-check"></i><b>1.3</b> Objetivos</a></li>
+<li class="chapter" data-level="1.4" data-path="introduccion.html"><a href="introduccion.html#alcance"><i class="fa fa-check"></i><b>1.4</b> Alcance</a></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="etl.html"><a href="etl.html"><i class="fa fa-check"></i><b>2</b> ETL: extracción, transformación y carga</a>
+<ul>
+<li class="chapter" data-level="2.1" data-path="etl.html"><a href="etl.html#extracci%C3%B3n"><i class="fa fa-check"></i><b>2.1</b> Extracción</a></li>
+<li class="chapter" data-level="2.2" data-path="etl.html"><a href="etl.html#transformaci%C3%B3n"><i class="fa fa-check"></i><b>2.2</b> Transformación</a></li>
+<li class="chapter" data-level="2.3" data-path="etl.html"><a href="etl.html#registro-de-calidad"><i class="fa fa-check"></i><b>2.3</b> Registro de calidad</a></li>
+<li class="chapter" data-level="2.4" data-path="etl.html"><a href="etl.html#carga"><i class="fa fa-check"></i><b>2.4</b> Carga</a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="eda.html"><a href="eda.html"><i class="fa fa-check"></i><b>3</b> Análisis exploratorio (EDA)</a>
+<ul>
+<li class="chapter" data-level="3.1" data-path="eda.html"><a href="eda.html#catalogo"><i class="fa fa-check"></i><b>3.1</b> Catálogo (objetivos 1 y 4)</a></li>
+<li class="chapter" data-level="3.2" data-path="eda.html"><a href="eda.html#precios"><i class="fa fa-check"></i><b>3.2</b> Precios (objetivos 2, 3 y 9)</a></li>
+<li class="chapter" data-level="3.3" data-path="eda.html"><a href="eda.html#jugadores"><i class="fa fa-check"></i><b>3.3</b> Jugadores (objetivos 5 y 7)</a></li>
+<li class="chapter" data-level="3.4" data-path="eda.html"><a href="eda.html#popularidad"><i class="fa fa-check"></i><b>3.4</b> Popularidad (objetivo 6)</a></li>
+<li class="chapter" data-level="3.5" data-path="eda.html"><a href="eda.html#logros"><i class="fa fa-check"></i><b>3.5</b> Logros (objetivo 8)</a></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="conclusiones.html"><a href="conclusiones.html"><i class="fa fa-check"></i><b>4</b> Conclusiones</a>
+<ul>
+<li class="chapter" data-level="4.1" data-path="conclusiones.html"><a href="conclusiones.html#respuesta-a-la-pregunta-de-investigaci%C3%B3n"><i class="fa fa-check"></i><b>4.1</b> Respuesta a la pregunta de investigación</a></li>
+<li class="chapter" data-level="4.2" data-path="conclusiones.html"><a href="conclusiones.html#recomendaciones"><i class="fa fa-check"></i><b>4.2</b> Recomendaciones</a></li>
+<li class="chapter" data-level="4.3" data-path="conclusiones.html"><a href="conclusiones.html#limitaciones"><i class="fa fa-check"></i><b>4.3</b> Limitaciones</a></li>
+<li class="chapter" data-level="4.4" data-path="conclusiones.html"><a href="conclusiones.html#trabajo-futuro"><i class="fa fa-check"></i><b>4.4</b> Trabajo futuro</a></li>
+</ul></li>
+<li class="divider"></li>
+<li><a href="https://github.com/AlexT09/ShinyAppGamming" target="_blank">Repositorio en GitHub</a></li>
+
 </ul>
 
       </nav>
@@ -84,7 +185,7 @@
       <div class="body-inner">
         <div class="book-header" role="navigation">
           <h1>
-            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Análisis y Visualización de Datos</a>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">PS Gaming Analytics 2025</a>
           </h1>
         </div>
 
@@ -93,14 +194,61 @@
 
             <section class="normal" id="section-">
 <div id="header">
-<h1 class="title">Análisis y Visualización de Datos</h1>
-<p class="author"><em>Tu Nombre</em></p>
-<p class="date"><em>2026-04-09</em></p>
+<h1 class="title">PS Gaming Analytics 2025</h1>
+<h2 class="subtitle"><em>Catálogo, precios, jugadores y trofeos de PlayStation Store</em></h2>
+<p class="author"><em>Alex Terán</em></p>
+<p class="date"><em>28/10/2026</em></p>
 </div>
-<div id="portada" class="section level1 hasAnchor" number="1">
-<h1><span class="header-section-number">Chapter 1</span> Portada<a href="index.html#portada" class="anchor-section" aria-label="Anchor link to header"></a></h1>
-<p>Bienvenido a este libro de análisis y visualización de datos con R.</p>
+<div id="presentación" class="section level1 unnumbered hasAnchor">
+<h1>Presentación<a href="index.html#presentaci%C3%B3n" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<p>Este libro documenta el análisis del <strong>esquema PlayStation</strong> del dataset público <em>Gaming Profiles 2025</em> (Kruglov, Kaggle, licencia CC0). El trabajo tiene tres partes:</p>
+<ol style="list-style-type: decimal">
+<li><strong>ETL</strong> (capítulo <a href="etl.html#etl">2</a>): limpieza de las 6 tablas crudas (19,5 millones de filas de actividad) en Python.</li>
+<li><strong>EDA</strong> (capítulo <a href="eda.html#eda">3</a>): análisis exploratorio organizado por los 9 objetivos del proyecto, con una interpretación debajo de cada gráfico.</li>
+<li><strong>Dashboards</strong>: la misma aplicación interactiva en <strong>Shiny (R)</strong>, en este repositorio, y en <strong>Dash (Python)</strong>, en el repositorio <a href="https://github.com/AlexT09/DashAppGamming">DashAppGamming</a>. Las dos leen los mismos datos procesados, así que muestran los mismos números.</li>
+</ol>
+<table>
+<thead>
+<tr class="header">
+<th>Cifra</th>
+<th>Valor</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Productos en el catálogo</td>
+<td>23,151 (11,153 títulos únicos)</td>
+</tr>
+<tr class="even">
+<td>Jugadores de la muestra</td>
+<td>356,600 de 70 países</td>
+</tr>
+<tr class="odd">
+<td>Bibliotecas públicas</td>
+<td>46,582</td>
+</tr>
+<tr class="even">
+<td>Trofeos ganados registrados</td>
+<td>15,295,351</td>
+</tr>
+<tr class="odd">
+<td>Precio mediano</td>
+<td>$7.99 USD (febrero de 2025)</td>
+</tr>
+</tbody>
+</table>
+<div id="cómo-reproducirlo" class="section level2 unnumbered hasAnchor">
+<h2>Cómo reproducirlo<a href="index.html#c%C3%B3mo-reproducirlo" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="index.html#cb1-1" tabindex="-1"></a><span class="co"># 1. Dashboard Shiny (desde la carpeta del repositorio)</span></span>
+<span id="cb1-2"><a href="index.html#cb1-2" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="fu">c</span>(<span class="st">&quot;shiny&quot;</span>, <span class="st">&quot;bslib&quot;</span>, <span class="st">&quot;plotly&quot;</span>, <span class="st">&quot;DT&quot;</span>, <span class="st">&quot;dplyr&quot;</span>, <span class="st">&quot;tidyr&quot;</span>, <span class="st">&quot;readr&quot;</span>))</span>
+<span id="cb1-3"><a href="index.html#cb1-3" tabindex="-1"></a>shiny<span class="sc">::</span><span class="fu">runApp</span>(<span class="st">&quot;shiny_app&quot;</span>)</span>
+<span id="cb1-4"><a href="index.html#cb1-4" tabindex="-1"></a></span>
+<span id="cb1-5"><a href="index.html#cb1-5" tabindex="-1"></a><span class="co"># 2. Este libro</span></span>
+<span id="cb1-6"><a href="index.html#cb1-6" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="fu">c</span>(<span class="st">&quot;bookdown&quot;</span>, <span class="st">&quot;ggplot2&quot;</span>, <span class="st">&quot;scales&quot;</span>, <span class="st">&quot;knitr&quot;</span>))</span>
+<span id="cb1-7"><a href="index.html#cb1-7" tabindex="-1"></a>bookdown<span class="sc">::</span><span class="fu">render_book</span>(<span class="st">&quot;index.Rmd&quot;</span>)   <span class="co"># resultado en docs/</span></span></code></pre></div>
+<p>El ETL (<code>etl/etl_playstation.py</code>) solo hace falta si quieres regenerar <code>data/processed/</code> desde los CSV originales de Kaggle.</p>
 
+</div>
 </div>
             </section>
 
@@ -108,7 +256,7 @@
         </div>
       </div>
 
-<a href="introducción.html" class="navigation navigation-next navigation-unique" aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="introduccion.html" class="navigation navigation-next navigation-unique" aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
@@ -122,26 +270,13 @@
 <script>
 gitbook.require(["gitbook"], function(gitbook) {
 gitbook.start({
-  "sharing": {
-    "github": false,
-    "facebook": true,
-    "twitter": true,
-    "linkedin": false,
-    "weibo": false,
-    "instapaper": false,
-    "vk": false,
-    "whatsapp": false,
-    "all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
-  },
+  "sharing": null,
   "fontsettings": {
     "theme": "white",
     "family": "sans",
     "size": 2
   },
-  "edit": {
-    "link": null,
-    "text": null
-  },
+  "edit": null,
   "history": {
     "link": null,
     "text": null

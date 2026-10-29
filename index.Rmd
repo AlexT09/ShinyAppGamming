@@ -1,12 +1,60 @@
---- 
-title: "Análisis y Visualización de Datos"
-author: "Tu Nombre"
-date: "`r Sys.Date()`"
+---
+title: "PS Gaming Analytics 2025"
+subtitle: "Catálogo, precios, jugadores y trofeos de PlayStation Store"
+author: "Alex Terán"
+date: "`r format(Sys.Date(), '%d/%m/%Y')`"
 site: bookdown::bookdown_site
-output: bookdown::gitbook
+documentclass: book
+lang: es
+description: "Análisis exploratorio y visualización del esquema PlayStation del dataset Gaming Profiles 2025 (Kaggle, CC0), con un dashboard en Shiny y otro en Dash."
 ---
 
-# Portada
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE, warning = FALSE, message = FALSE, fig.align = "center",
+                      fig.width = 8, fig.height = 4.5, dpi = 110)
+suppressPackageStartupMessages({
+  library(dplyr); library(tidyr); library(readr); library(ggplot2); library(scales); library(knitr)
+})
 
-Bienvenido a este libro de análisis y visualización de datos con R.
+DATA <- "data/processed"
+rd <- function(f) read_csv(file.path(DATA, f), show_col_types = FALSE, progress = FALSE)
+games <- rd("games_clean.csv")
+countries <- rd("countries.csv")
+summ <- rd("summary.csv"); S <- as.list(setNames(summ$display, summ$key))
 
+PLATFORM_COLORS <- c("PS3" = "#8B9BB4", "PS4" = "#0070D1", "PS5" = "#7FD3F7", "PS Vita" = "#A78BFA")
+RARITY_COLORS <- c("Bronze" = "#CD7F32", "Silver" = "#A8B0BB", "Gold" = "#F5B700", "Platinum" = "#7FD3F7")
+theme_set(theme_minimal(base_size = 12) +
+          theme(panel.grid.minor = element_blank(), plot.title = element_text(face = "bold", color = "#00265F"),
+                plot.title.position = "plot", legend.position = "top"))
+```
+
+# Presentación {-}
+
+Este libro documenta el análisis del **esquema PlayStation** del dataset público *Gaming Profiles 2025* (Kruglov, Kaggle, licencia CC0). El trabajo tiene tres partes:
+
+1. **ETL** (capítulo \@ref(etl)): limpieza de las 6 tablas crudas (19,5 millones de filas de actividad) en Python.
+2. **EDA** (capítulo \@ref(eda)): análisis exploratorio organizado por los 9 objetivos del proyecto, con una interpretación debajo de cada gráfico.
+3. **Dashboards**: la misma aplicación interactiva en **Shiny (R)**, en este repositorio, y en **Dash (Python)**, en el repositorio [DashAppGamming](https://github.com/AlexT09/DashAppGamming). Las dos leen los mismos datos procesados, así que muestran los mismos números.
+
+| Cifra | Valor |
+|---|---|
+| Productos en el catálogo | `r S$n_games` (`r S$n_titles` títulos únicos) |
+| Jugadores de la muestra | `r S$n_players` de `r S$n_countries` países |
+| Bibliotecas públicas | `r S$n_players_library` |
+| Trofeos ganados registrados | `r S$n_trophy_events` |
+| Precio mediano | `r S$median_price` USD (febrero de 2025) |
+
+## Cómo reproducirlo {-}
+
+```r
+# 1. Dashboard Shiny (desde la carpeta del repositorio)
+install.packages(c("shiny", "bslib", "plotly", "DT", "dplyr", "tidyr", "readr"))
+shiny::runApp("shiny_app")
+
+# 2. Este libro
+install.packages(c("bookdown", "ggplot2", "scales", "knitr"))
+bookdown::render_book("index.Rmd")   # resultado en docs/
+```
+
+El ETL (`etl/etl_playstation.py`) solo hace falta si quieres regenerar `data/processed/` desde los CSV originales de Kaggle.
