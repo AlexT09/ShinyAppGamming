@@ -6,7 +6,7 @@ miss <- rd("missing_raw.csv")
 fx <- rd("fx_rates.csv")
 ```
 
-El ETL está en `etl/etl_playstation.py` (Python con pandas). Se eligió Python para esta parte porque `history.csv` pesa unos 800 MB y hay que leerlo **por partes** de 2 millones de filas para no superar ~1 GB de RAM. El resultado son 13 tablas pequeñas en `data/processed/` (≈10 MB) que leen este libro, la app Shiny y el dashboard Dash.
+El ETL está en `etl/etl_playstation.py` del repositorio [DashAppGamming](https://github.com/AlexT09/DashAppGamming) (Python con pandas). Se eligió Python para esta parte porque `history.csv` pesa unos 800 MB y hay que leerlo **por partes** de 2 millones de filas para no superar ~1 GB de RAM. El resultado son 13 tablas pequeñas en `data/processed/` (≈10 MB) que leen este libro, la app Shiny y el dashboard Dash.
 
 ## Extracción
 

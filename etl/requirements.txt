@@ -1,4 +1,0 @@
-# Solo para regenerar data/processed/ desde los CSV de Kaggle
-pandas==2.3.3
-numpy==2.2.6
-pycountry==26.2.16

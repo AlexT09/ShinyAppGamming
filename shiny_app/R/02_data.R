@@ -9,7 +9,7 @@ suppressPackageStartupMessages({
 
 .candidates <- c(Sys.getenv("PS_DATA_DIR"), "data/processed", "../data/processed", "../../data/processed")
 DATA_DIR <- .candidates[nzchar(.candidates) & file.exists(file.path(.candidates, "games_clean.csv"))][1]
-if (is.na(DATA_DIR)) stop("No encuentro data/processed/. Corre antes el ETL (etl/etl_playstation.py).")
+if (is.na(DATA_DIR)) stop("No encuentro data/processed/. Copia data/processed/ del repo DashAppGamming (o corre su ETL).")
 
 rd <- function(name) readr::read_csv(file.path(DATA_DIR, name), show_col_types = FALSE, progress = FALSE)
 

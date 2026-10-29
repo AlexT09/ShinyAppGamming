@@ -13,9 +13,6 @@ archive*/
 data/raw/
 *.zip
 
-# Python (ETL)
-__pycache__/
-.venv/
 
 # Sistema
 .DS_Store

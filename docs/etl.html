@@ -195,7 +195,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
             <section class="normal" id="section-">
 <div id="etl" class="section level1 hasAnchor" number="2">
 <h1><span class="header-section-number">Capítulo 2</span> ETL: extracción, transformación y carga<a href="etl.html#etl" class="anchor-section" aria-label="Anchor link to header"></a></h1>
-<p>El ETL está en <code>etl/etl_playstation.py</code> (Python con pandas). Se eligió Python para esta parte porque <code>history.csv</code> pesa unos 800 MB y hay que leerlo <strong>por partes</strong> de 2 millones de filas para no superar ~1 GB de RAM. El resultado son 13 tablas pequeñas en <code>data/processed/</code> (≈10 MB) que leen este libro, la app Shiny y el dashboard Dash.</p>
+<p>El ETL está en <code>etl/etl_playstation.py</code> del repositorio <a href="https://github.com/AlexT09/DashAppGamming">DashAppGamming</a> (Python con pandas). Se eligió Python para esta parte porque <code>history.csv</code> pesa unos 800 MB y hay que leerlo <strong>por partes</strong> de 2 millones de filas para no superar ~1 GB de RAM. El resultado son 13 tablas pequeñas en <code>data/processed/</code> (≈10 MB) que leen este libro, la app Shiny y el dashboard Dash.</p>
 <div id="extracción" class="section level2 hasAnchor" number="2.1">
 <h2><span class="header-section-number">2.1</span> Extracción<a href="etl.html#extracci%C3%B3n" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>Se leen las 6 tablas crudas del esquema PlayStation. Antes de limpiar, se mide el porcentaje de valores faltantes de cada columna.</p>

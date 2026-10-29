@@ -57,4 +57,4 @@ install.packages(c("bookdown", "ggplot2", "scales", "knitr"))
 bookdown::render_book("index.Rmd")   # resultado en docs/
 ```
 
-El ETL (`etl/etl_playstation.py`) solo hace falta si quieres regenerar `data/processed/` desde los CSV originales de Kaggle.
+El ETL (`etl/etl_playstation.py`, en el repositorio [DashAppGamming](https://github.com/AlexT09/DashAppGamming)) solo hace falta si quieres regenerar `data/processed/` desde los CSV originales de Kaggle.

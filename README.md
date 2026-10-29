@@ -54,12 +54,7 @@ Para GitHub Pages: *Settings → Pages → Branch: main → Folder: /docs*.
 
 ## Datos y ETL
 
-`data/processed/` ya viene en el repositorio (≈10 MB). Para regenerarlo desde los CSV originales (3,8 GB) se usa el ETL en Python de `etl/` (mismo código que en el repo de Dash):
-
-```bash
-pip install -r etl/requirements.txt
-python etl/etl_playstation.py --raw "ruta/a/playstation"
-```
+`data/processed/` ya viene en el repositorio (≈8 MB) y es una copia exacta del de [DashAppGamming](https://github.com/AlexT09/DashAppGamming). El ETL que lo genera desde los CSV originales (3,8 GB) está en ese repositorio (`etl/etl_playstation.py`); si regeneras los datos allí, copia la carpeta `data/processed/` aquí.
 
 ## Estructura
 
@@ -70,7 +65,7 @@ ShinyAppGamming/
 ├── _bookdown.yml, _output.yml, style.css
 ├── docs/               # libro compilado (GitHub Pages)
 ├── data/processed/     # 13 tablas limpias que leen la app y el libro
-└── etl/                # ETL en Python (opcional)
+└── ShinyAppGamming.Rproj
 ```
 
 ## Autor
